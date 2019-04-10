@@ -1,2 +1,2 @@
-# BeARShopper
+# PrisKompis
 SDA - Android Group Project 
