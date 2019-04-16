@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--this is a title bar , left side is return back botton-->
+<!--we set RelativeLayout layout，id = "title_bar"-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/title_bar"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@android:color/transparent">
+    <!--一show the return function botton-->
+    <!--use TextView to show，id ： tv_back , tv_main_title -->
+    <TextView
+        android:id="@+id/tv_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:background="#00e5ff" />
+    <TextView
+        android:id="@+id/tv_main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
+    <!--android:background="@drawable/go_back_selector"is press the back botton，see the change，the picture will change-->
+</RelativeLayout>
