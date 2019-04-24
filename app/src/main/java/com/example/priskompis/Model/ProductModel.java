@@ -1,4 +1,4 @@
-package com.example.android.priskompis.DataHandling;
+package com.example.priskompis.Model;
 
 public class ProductModel
     {

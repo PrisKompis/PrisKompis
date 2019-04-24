@@ -1,4 +1,6 @@
-package com.example.android.priskompis.DataHandling;
+package com.example.priskompis.Operations;
+
+import com.example.priskompis.Model.ProductModel;
 
 import java.util.ArrayList;
 

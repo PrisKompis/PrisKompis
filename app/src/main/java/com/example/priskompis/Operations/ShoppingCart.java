@@ -3,6 +3,8 @@ package com.example.priskompis.Operations;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.priskompis.R;
+
 public class ShoppingCart extends AppCompatActivity {
 
     @Override
