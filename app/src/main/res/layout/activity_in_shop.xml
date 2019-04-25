@@ -54,22 +54,29 @@
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
             android:text="Product Name and Price is displayed here after Scanning" />
 
         <TextView
             android:id="@+id/productNameDisplay"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/productQuantityDisplay"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            android:textSize="18sp"/>
 
         <TextView
             android:id="@+id/productPriceDisplay"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            android:textSize="18sp"/>
     </LinearLayout>
 
     <LinearLayout

@@ -39,10 +39,10 @@ public class InShop extends AppCompatActivity {
 
 public void scanItem(View view)
     {
-    product=dat.getItemByID("0000042");
+    product=dat.getItemByID("0000042"); //After we get the id from scanning the barcode.
     displayName.setText(product.getName());
     displayQuantity.setText(product.getQuantity());
-    displayPrice.setText(String.valueOf(product.getPriceICA()));
+    displayPrice.setText(String.valueOf(product.getPriceICA())+" SEK");
 
     }
 }
