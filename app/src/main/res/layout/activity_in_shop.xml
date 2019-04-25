@@ -91,30 +91,49 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pieChart"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="1.0"
+        >
 
         <TextView
             android:id="@+id/quantityLabel"
-            android:layout_width="83dp"
-            android:layout_height="47dp"
-
-            android:baselineAligned="false"
+            android:layout_width="70dp"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:layout_margin="10sp"
+            android:baselineAligned="true"
+            android:visibility="invisible"
             android:text="Quantity" />
 
         <EditText
-            android:id="@+id/editText"
-            android:layout_width="157dp"
+            android:id="@+id/editQuantity"
+            android:layout_width="100dp"
             android:layout_height="46dp"
             android:layout_margin="10sp"
             android:background="@drawable/rectangle"
             android:ems="10"
-            android:inputType="number" />
+            android:visibility="invisible"
+            android:onClick="clearText"
+
+            android:gravity="center"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="50dp"
+            android:layout_height="46dp"
+            android:layout_margin="10sp"
+            android:baselineAligned="true"
+            android:text=""
+            android:visibility="invisible"/>
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/buttonAddCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
-            android:text="Add to Cart" />
+            android:onClick="AddToCart"
+            android:baselineAligned="true"
+            android:text="Add to Cart"
+            android:visibility="invisible"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
