@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUp extends AppCompatActivity {
 private EditText email;
-private EditText pass;
+private EditText pass,repass;
 private Button btnSignup;
 private FirebaseAuth mAuth;
 private ProgressDialog mDialog;
@@ -39,19 +39,36 @@ private ProgressDialog mDialog;
 
             btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+                {
 
-            String mEmail=email.getText().toString().trim();
-            String mPass=pass.getText().toString().trim();
+                String mEmail = email.getText().toString().trim();
+                String mPass = pass.getText().toString().trim();
+                String mRepass = repass.getText().toString().trim();
 
-            if (TextUtils.isEmpty(mEmail)){
-            email.setError("Required Field..");
-            return;
-            }
-            if (TextUtils.isEmpty(mPass)){
-            pass.setError("Required Field..");
-            return;
-            }
+                if (TextUtils.isEmpty(mEmail))
+                    {
+                    email.setError("Required Field..");
+                    return;
+                    }
+                if (TextUtils.isEmpty(mPass))
+                    {
+                    pass.setError("Required Field..");
+                    return;
+                    }
+
+                if (TextUtils.isEmpty(mRepass))
+                    {
+                    repass.setError("Required Field");
+                    return;
+                    }
+
+                if (!mPass.equals(mRepass))
+                    {Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_SHORT);
+                return;
+                }
+
+
 
             mDialog.setMessage("Processing..");
             mDialog.show();
