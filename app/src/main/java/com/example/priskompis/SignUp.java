@@ -34,6 +34,7 @@ private ProgressDialog mDialog;
 
         email=findViewById(R.id.btn_emailId);
         pass=findViewById(R.id.btn_pwd);
+        repass=findViewById(R.id.btn_retypepwd);
         btnSignup = findViewById(R.id.btn_reg);
 
 
@@ -63,9 +64,9 @@ private ProgressDialog mDialog;
                     return;
                     }
 
-                if (!mPass.equals(mRepass))
+                if (!(mPass.equals(mRepass)))
                     {Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_SHORT);
-                return;
+
                 }
 
 
@@ -88,6 +89,7 @@ private ProgressDialog mDialog;
                     else
                         {
                         Toast.makeText(getApplicationContext(), "Problem", Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
