@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "668500433266",
+    "firebase_url": "https://pris-kompis.firebaseio.com",
+    "project_id": "pris-kompis",
+    "storage_bucket": "pris-kompis.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668500433266:android:b1106dff6804b070",
+        "android_client_info": {
+          "package_name": "com.example.android.datatest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668500433266-v74ph47cn040lg8t20rnm8flvvg94cac.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.datatest",
+            "certificate_hash": "b35fcce59a5b5cc3d586bcc3f2cd33192086926a"
+          }
+        },
+        {
+          "client_id": "668500433266-ju6qcq3pc0r6jed2e9q3rsdt2qm3n4f6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwS6mmznlDknuJ5YkyEvbcUoBQ7heSJ4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668500433266-ju6qcq3pc0r6jed2e9q3rsdt2qm3n4f6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668500433266:android:8c60dc5755690e77",
+        "android_client_info": {
+          "package_name": "com.example.prisdatahandling"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668500433266-ju6qcq3pc0r6jed2e9q3rsdt2qm3n4f6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwS6mmznlDknuJ5YkyEvbcUoBQ7heSJ4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668500433266-ju6qcq3pc0r6jed2e9q3rsdt2qm3n4f6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668500433266:android:ba92345e43d9ac53",
+        "android_client_info": {
+          "package_name": "com.example.priskompis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668500433266-ju6qcq3pc0r6jed2e9q3rsdt2qm3n4f6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwS6mmznlDknuJ5YkyEvbcUoBQ7heSJ4U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668500433266-ju6qcq3pc0r6jed2e9q3rsdt2qm3n4f6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
