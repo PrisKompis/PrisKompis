@@ -1,6 +1,8 @@
 package com.example.priskompis.Operations;
 
 
+import android.widget.Toast;
+
 import com.example.priskompis.Model.ProductModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -11,42 +13,43 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//import static com.firebase.ui.auth.AuthUI.getApplicationContext;
+
 
 public class Database
     {
 
     DatabaseReference reference;
+    ArrayList<ProductModel> productList=new ArrayList<>();
+    HashMap<String,ArrayList<String>> products;
+
+
+    HashMap<String,ProductModel> items=new HashMap<>();
+
+
+    public Database()
+        {
+        retrieveDatabase();
+        }
+
 
     public HashMap getItems()
         {
         return items;
         }
 
+
     public ArrayList<ProductModel> getProductList()
         {
         return productList;
         }
 
-    ArrayList<ProductModel> productList=new ArrayList<>();
-    HashMap<String,ArrayList<String>> products;
 
 
-    HashMap<String,ProductModel> items=new HashMap<>();
-  /*  public  ArrayList<ProductModel> getItems()
-        {
-        return items;
-        }
-
-
-
-    public ArrayList<String> getCategories()
-        {
-        return categories;
-
-        }*/
-
-  public ProductModel getItemByID(String ID)
+    public ProductModel getItemByID(String ID)
       {
+
+
       return items.get(ID);
       }
 
@@ -137,7 +140,7 @@ public class Database
             @Override
             public void onCancelled(DatabaseError databaseError)
                 {
-                //Toast.makeText(this,"Error with database",Toast.LENGTH_SHORT).show();
+                throw databaseError.toException();
                 }
             });
 
