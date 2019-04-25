@@ -10,7 +10,7 @@ public class InShop extends AppCompatActivity {
 
     Intent intent =new Intent();
     private int budget;
-    private TextView budgetDisplay;
+
 
 
     @Override
@@ -18,9 +18,9 @@ public class InShop extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         intent=getIntent();
         setContentView(R.layout.activity_in_shop);
-        budgetDisplay=findViewById(R.id.budgetDisplay);
+
         budget=intent.getIntExtra("budget",0);
-        budgetDisplay.setText(String.valueOf(budget));
+
 
 
     }
