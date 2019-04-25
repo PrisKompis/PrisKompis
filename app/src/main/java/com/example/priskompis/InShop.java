@@ -1,6 +1,7 @@
 package com.example.priskompis;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -9,7 +10,12 @@ import android.widget.Toast;
 public class InShop extends AppCompatActivity {
 
     Intent intent =new Intent();
-    private int budget;
+    private int userBudget;
+    private int currentItemPrice = 0;
+    private int budget = 0;
+    private int totalPrice =0;
+    AlertDialog.Builder builder;
+
 
 
 
@@ -19,7 +25,7 @@ public class InShop extends AppCompatActivity {
         intent=getIntent();
         setContentView(R.layout.activity_in_shop);
 
-        budget=intent.getIntExtra("budget",0);
+        userBudget=intent.getIntExtra("budget",0);
 
 
 
