@@ -23,13 +23,14 @@
     </FrameLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonScan"
         android:layout_width="389dp"
         android:layout_height="44dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:onClick="scanItem"
         android:text="Scan Item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,25 +42,40 @@
         android:id="@+id/productDisplay"
         android:layout_width="388dp"
         android:layout_height="190dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="8dp"
         android:background="#1E3FB5A3"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintHorizontal_bias="0.217"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
-            android:layout_height="117dp"
+            android:layout_height="wrap_content"
             android:text="Product Name and Price is displayed here after Scanning" />
+
+        <TextView
+            android:id="@+id/productNameDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/productQuantityDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/productPriceDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="407dp"
-        android:layout_height="121dp"
+        android:layout_height="87dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="76dp"
         android:orientation="horizontal"
@@ -72,16 +88,16 @@
 
         <TextView
             android:id="@+id/quantityLabel"
-            android:layout_width="77dp"
-            android:layout_height="39dp"
+            android:layout_width="83dp"
+            android:layout_height="47dp"
 
             android:baselineAligned="false"
             android:text="Quantity" />
 
         <EditText
             android:id="@+id/editText"
-            android:layout_width="144dp"
-            android:layout_height="44dp"
+            android:layout_width="157dp"
+            android:layout_height="46dp"
             android:layout_margin="10sp"
             android:background="@drawable/rectangle"
             android:ems="10"
