@@ -1,6 +1,8 @@
 package com.example.priskompis.Model;
 
-public class ProductModel
+import java.io.Serializable;
+
+public class ProductModel implements Serializable
     {
     private String ID;
     private String category;

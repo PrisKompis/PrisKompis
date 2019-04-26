@@ -12,8 +12,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.priskompis.Model.Order;
 import com.example.priskompis.Model.ProductModel;
 import com.example.priskompis.Operations.Database;
+
+import java.util.HashMap;
 
 public class InShop extends AppCompatActivity {
 
@@ -30,6 +33,7 @@ public class InShop extends AppCompatActivity {
     private float result;
     private TextView quantityLabel;
     private Button addToCart;
+    private HashMap<String, Order> orderList;
 
 
 
@@ -45,6 +49,7 @@ public class InShop extends AppCompatActivity {
     resultView=findViewById(R.id.textViewResult);
     quantityLabel=findViewById(R.id.quantityLabel);
     addToCart=findViewById(R.id.buttonAddCart);
+    orderList=new HashMap<>();
 
     requiredQuantity.addTextChangedListener(new TextWatcher()
         {
@@ -113,11 +118,28 @@ public void AddToCart(View view)
     float price=product.getPriceICA();
     result=price*reqQuantity;
     result=(float)Math.ceil(result);
+    Order order =new Order();
+    order.setProduct(product);
+    order.setQuantity(reqQuantity);
+    order.setSinglePrice(product.getPriceICA());
+    order.setTotalPrice(result);
+    orderList.put(product.getID(),order);
+
 
     }
 
 public void clearText(View view)
     {
         requiredQuantity.getText().clear();
+    }
+
+public void checkOut(View view)
+    {
+    Bundle bundle = new Bundle();
+    Intent intent=new Intent(getApplicationContext(),Checkout.class);
+    bundle.putSerializable("orderList",orderList);
+    intent.putExtras(bundle);
+    startActivity(intent);
+
     }
 }
