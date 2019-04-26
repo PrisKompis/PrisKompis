@@ -28,5 +28,6 @@ private RecyclerView.LayoutManager cartListlayoutManager;
     cartList.setHasFixedSize(true);
     cartListlayoutManager = new LinearLayoutManager(this);
     cartList.setLayoutManager(cartListlayoutManager);
+
     }
 }

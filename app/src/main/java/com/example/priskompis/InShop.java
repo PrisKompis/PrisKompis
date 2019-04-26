@@ -7,8 +7,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,128 +22,158 @@ import com.example.priskompis.Operations.Database;
 
 import java.util.HashMap;
 
-public class InShop extends AppCompatActivity {
+public class InShop extends AppCompatActivity
+    {
 
-    Intent intent =new Intent();
+    Intent intent = new Intent();
     private int budget;
-    private Database dat=new Database();
+    private Database dat = new Database();
     private ProductModel product;
     private TextView displayName;
     private TextView displayQuantity;
     private TextView displayPrice;
     private EditText requiredQuantity;
     private TextView resultView;
-    private float reqQuantity=1;
+    private float reqQuantity = 1;
     private float result;
     private TextView quantityLabel;
     private Button addToCart;
     private HashMap<String, Order> orderList;
 
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+        {
         super.onCreate(savedInstanceState);
-        intent=getIntent();
+        intent = getIntent();
         setContentView(R.layout.activity_in_shop);
-        displayName=findViewById(R.id.productNameDisplay);
-    displayQuantity=findViewById(R.id.productQuantityDisplay);
-    displayPrice=findViewById(R.id.productPriceDisplay);
-    requiredQuantity=findViewById(R.id.editQuantity);
-    resultView=findViewById(R.id.textViewResult);
-    quantityLabel=findViewById(R.id.quantityLabel);
-    addToCart=findViewById(R.id.buttonAddCart);
-    orderList=new HashMap<>();
+        displayName = findViewById(R.id.productNameDisplay);
+        displayQuantity = findViewById(R.id.productQuantityDisplay);
+        displayPrice = findViewById(R.id.productPriceDisplay);
+        requiredQuantity = findViewById(R.id.editQuantity);
+        resultView = findViewById(R.id.textViewResult);
+        quantityLabel = findViewById(R.id.quantityLabel);
+        addToCart = findViewById(R.id.buttonAddCart);
+        orderList = new HashMap<>();
 
-    requiredQuantity.addTextChangedListener(new TextWatcher()
-        {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+        requiredQuantity.addTextChangedListener(new TextWatcher()
             {
-
-            }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
-
-            }
-
-        @Override
-        public void afterTextChanged(Editable s)
-            {
-            if (TextUtils.isEmpty(requiredQuantity.getText().toString())||requiredQuantity.getText().toString().endsWith("."))
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
                 {
-                resultView.setText("0");
+
                 }
-            else
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
                 {
-                reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
-                float price = product.getPriceICA();
-                result = price * reqQuantity;
-                result=(float)Math.ceil(result);
-                resultView.setText(String.valueOf(result));
+
                 }
-            }
-        });
-        budget=intent.getIntExtra("budget",0);
+
+            @Override
+            public void afterTextChanged(Editable s)
+                {
+                if (TextUtils.isEmpty(requiredQuantity.getText().toString()) || requiredQuantity.getText().toString().endsWith("."))
+                    {
+                    resultView.setText("0");
+                    }
+                else
+                    {
+                    reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
+                    float price = product.getPriceICA();
+                    result = price * reqQuantity;
+                    result = (float) Math.ceil(result);
+                    resultView.setText(String.valueOf(result));
+                    updateChart();
+                    }
+                }
+            });
+        budget = intent.getIntExtra("budget", 0);
 
 
-
-
-    }
-
-public void scanItem(View view)
-    {
-    product=dat.getItemByID("0000042"); //After we get the id from scanning the barcode.
-    displayName.setText(product.getName());
-    displayQuantity.setText(product.getQuantity());
-    displayPrice.setText(String.valueOf(product.getPriceICA())+" SEK");
-    resultView.setText(String.valueOf(product.getPriceICA()));
-    requiredQuantity.setText("1");
-    addToCart.setVisibility(View.VISIBLE);
-    resultView.setVisibility(View.VISIBLE);
-    quantityLabel.setVisibility(View.VISIBLE);
-    requiredQuantity.setVisibility(View.VISIBLE);
-
-
-    }
-
-
-public void AddToCart(View view)
-    {
-    if(TextUtils.isEmpty(requiredQuantity.getText()))
-        {
-        requiredQuantity.setError("Quantity can not be empty");
-
-        return;
         }
-    reqQuantity=Float.parseFloat(requiredQuantity.getText().toString());
-    float price=product.getPriceICA();
-    result=price*reqQuantity;
-    result=(float)Math.ceil(result);
-    Order order =new Order();
-    order.setProduct(product);
-    order.setQuantity(reqQuantity);
-    order.setSinglePrice(product.getPriceICA());
-    order.setTotalPrice(result);
-    orderList.put(product.getID(),order);
+
+    public void scanItem(View view)
+        {
+        product = dat.getItemByID("0000042"); //After we get the id from scanning the barcode.
+        displayName.setText(product.getName());
+        displayQuantity.setText(product.getQuantity());
+        displayPrice.setText(String.valueOf(product.getPriceICA()) + " SEK");
+        resultView.setText(String.valueOf(product.getPriceICA()));
+        requiredQuantity.setText("1");
+        addToCart.setVisibility(View.VISIBLE);
+        resultView.setVisibility(View.VISIBLE);
+        quantityLabel.setVisibility(View.VISIBLE);
+        requiredQuantity.setVisibility(View.VISIBLE);
+        updateChart();
 
 
-    }
+        }
 
-public void clearText(View view)
-    {
+
+    public void AddToCart(View view)
+        {
+        if (TextUtils.isEmpty(requiredQuantity.getText()))
+            {
+            requiredQuantity.setError("Quantity can not be empty");
+
+            return;
+            }
+        reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
+        float price = product.getPriceICA();
+        result = price * reqQuantity;
+        result = (float) Math.ceil(result);
+        Order order = new Order();
+        order.setProduct(product);
+        order.setQuantity(reqQuantity);
+        order.setSinglePrice(product.getPriceICA());
+        order.setTotalPrice(result);
+        orderList.put(product.getID(), order);
+
+
+        }
+
+    public void clearText(View view)
+        {
         requiredQuantity.getText().clear();
-    }
+        }
 
-public void checkOut(View view)
-    {
-    Bundle bundle = new Bundle();
-    Intent intent=new Intent(getApplicationContext(),Checkout.class);
-    bundle.putSerializable("orderList",orderList);
-    intent.putExtras(bundle);
-    startActivity(intent);
+    public void checkOut(View view)
+        {
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(getApplicationContext(), Checkout.class);
+        bundle.putSerializable("orderList", orderList);
+        intent.putExtras(bundle);
+        startActivity(intent);
 
+        }
+
+
+    private void updateChart()
+        {
+// Update the text in a center of the chart:
+        TextView totalBudget = findViewById(R.id.total_budget);
+        totalBudget.setText(result + " / " + budget);
+        ProgressBar fraction=findViewById(R.id.stats_progressbar);
+
+        fraction.startAnimation(getBlinkAnimation());
+
+
+
+// Calculate the slice size and update the pie chart:
+        ProgressBar pieChart = findViewById(R.id.stats_progressbar);
+        double d = (double) result / (double) budget;
+        int progress = (int) (d * 100);
+        pieChart.setProgress(progress);
+        }
+
+    public Animation getBlinkAnimation(){
+    Animation animation = new AlphaAnimation(1, 0);         // Change alpha from fully visible to invisible
+    animation.setDuration(300);                             // duration - half a second
+    animation.setInterpolator(new LinearInterpolator());    // do not alter animation rate
+    animation.setRepeatCount(100);                            // Repeat animation infinitely
+    animation.setRepeatMode(Animation.REVERSE);             // Reverse animation at the end so the button will fade back in
+
+    return animation;
     }
-}
+    }
