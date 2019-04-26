@@ -36,4 +36,9 @@ public class BudgetSet extends AppCompatActivity
         startActivity(intent);
 
         }
+
+    public void clear(View view)
+        {
+        budgetInput.getText().clear();
+        }
     }

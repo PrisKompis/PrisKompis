@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="112dp"
         android:ems="10"
+        android:onClick="clear"
         android:hint="Enter amount here"
         android:inputType="textPersonName"
         android:text="0"
