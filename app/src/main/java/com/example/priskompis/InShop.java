@@ -178,12 +178,12 @@ public class InShop extends AppCompatActivity
         }
         public void scanItem(View view){
             // launch barcode activity.
-            if(TextUtils.isEmpty(barcodeValue.getText()))
-            { Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
+
+            Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
             intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
             //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
             startActivityForResult(intent, RC_BARCODE_CAPTURE);}
-        }
+
 
     public void AddToCart(View view)
         {
