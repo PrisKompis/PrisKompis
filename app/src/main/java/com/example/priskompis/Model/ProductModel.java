@@ -19,7 +19,7 @@ public class ProductModel implements Serializable
 
 
 
-    public float getPriceWillys()
+        public float getPriceWillys()
         {
         return priceWillys;
         }

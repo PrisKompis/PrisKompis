@@ -6,17 +6,24 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.priskompis.Adapter.ProductAdapter;
 import com.example.priskompis.Model.Order;
+import com.example.priskompis.Model.ProductModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Checkout extends AppCompatActivity {
 
-private RecyclerView cartList;
-private RecyclerView.Adapter cartListAdapter;
-private RecyclerView.LayoutManager cartListlayoutManager;
+    //a list to store all the products
+    List<ProductModel> productList;
 
-@Override
+    //the recyclerview
+    RecyclerView recyclerView;
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
@@ -24,10 +31,18 @@ private RecyclerView.LayoutManager cartListlayoutManager;
     Bundle bundle = intent.getExtras();
 //Type object = (Type) bundle.getSerializable("KEY");
     HashMap<String, Order> myData = (HashMap<String, Order>) bundle.getSerializable("orderList");
-    cartList=findViewById(R.id.cartListView);
-    cartList.setHasFixedSize(true);
-    cartListlayoutManager = new LinearLayoutManager(this);
-    cartList.setLayoutManager(cartListlayoutManager);
 
+        recyclerView = (RecyclerView) findViewById(R.id.cartListView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //initializing the productlist
+        productList = new ArrayList<>();
+        //creating recyclerview adapter
+        ProductAdapter adapter = new ProductAdapter(this, productList);
+
+        //setting adapter to recyclerview
+        recyclerView.setAdapter(adapter);
     }
+
 }
