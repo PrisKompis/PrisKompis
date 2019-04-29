@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 import com.example.priskompis.Model.Order;
 import com.example.priskompis.Model.ProductModel;
 import com.example.priskompis.Operations.Database;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 
 import java.util.HashMap;
 
@@ -39,7 +43,18 @@ public class InShop extends AppCompatActivity
     private TextView quantityLabel;
     private Button addToCart;
     private HashMap<String, Order> orderList;
+    private String ID;
 
+        // use a compound button so either checkbox or switch widgets work.
+        private CompoundButton autoFocus;
+        //private CompoundButton useFlash;
+        //private TextView statusMessage;
+        public TextView barcodeValue;
+
+        private static final int RC_BARCODE_CAPTURE = 9001;
+        private static final String TAG = "BarcodeMain";
+        private String scannedText;
+        public Barcode barcode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,6 +70,8 @@ public class InShop extends AppCompatActivity
         quantityLabel = findViewById(R.id.quantityLabel);
         addToCart = findViewById(R.id.buttonAddCart);
         orderList = new HashMap<>();
+        //barcode=null;
+        product=new ProductModel();
 
         requiredQuantity.addTextChangedListener(new TextWatcher()
             {
@@ -90,26 +107,96 @@ public class InShop extends AppCompatActivity
             });
         budget = intent.getIntExtra("budget", 0);
 
-
+            barcodeValue = (TextView)findViewById(R.id.barcode_value);
+            autoFocus = (CompoundButton) findViewById(R.id.auto_focus);
+            //useFlash = (CompoundButton) findViewById(R.id.use_flash);
+            //findViewById(R.id.buttonScan).setOnClickListener(this);
         }
 
-    public void scanItem(View view)
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == RC_BARCODE_CAPTURE) {
+                if (resultCode == CommonStatusCodes.SUCCESS) {
+                    if (data != null) {
+                        barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                        //ID=data.getExtras().getString("ID");
+                        //statusMessage.setText(R.string.barcode_success);
+                        //barcodeValue.setText(barcode.displayValue);
+                        updateProduct(barcode.rawValue);
+                        Log.d(TAG, "Barcode read: " + barcode.displayValue);
+
+                    } else {
+                        //statusMessage.setText(R.string.barcode_failure);
+                        Log.d(TAG, "No barcode captured, intent data is null");
+                    }
+                } else {
+                    //statusMessage.setText(String.format(getString(R.string.barcode_error),
+                           // CommonStatusCodes.getStatusCodeString(resultCode)));
+                }
+            }
+            else {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+
+        private void updateChart()
         {
-        product = dat.getItemByID("0000042"); //After we get the id from scanning the barcode.
-        displayName.setText(product.getName());
-        displayQuantity.setText(product.getQuantity());
-        displayPrice.setText(String.valueOf(product.getPriceICA()) + " SEK");
-        resultView.setText(String.valueOf(product.getPriceICA()));
-        requiredQuantity.setText("1");
-        addToCart.setVisibility(View.VISIBLE);
-        resultView.setVisibility(View.VISIBLE);
-        quantityLabel.setVisibility(View.VISIBLE);
-        requiredQuantity.setVisibility(View.VISIBLE);
-        updateChart();
+// Update the text in a center of the chart:
+            TextView totalBudget = findViewById(R.id.total_budget);
+            totalBudget.setText(result + " / " + budget);
+            ProgressBar fraction=findViewById(R.id.stats_progressbar);
+
+            fraction.startAnimation(getBlinkAnimation());
 
 
+
+// Calculate the slice size and update the pie chart:
+            ProgressBar pieChart = findViewById(R.id.stats_progressbar);
+            double d = (double) result / (double) budget;
+            int progress = (int) (d * 100);
+            pieChart.setProgress(progress);
         }
 
+        public Animation getBlinkAnimation(){
+            Animation animation = new AlphaAnimation(1, 0);         // Change alpha from fully visible to invisible
+            animation.setDuration(300);                             // duration - half a second
+            animation.setInterpolator(new LinearInterpolator());    // do not alter animation rate
+            animation.setRepeatCount(100);                            // Repeat animation infinitely
+            animation.setRepeatMode(Animation.REVERSE);             // Reverse animation at the end so the button will fade back in
+
+            return animation;
+        }
+
+        public void updateProduct(String barCode)
+        {
+            product = dat.getItemByID(barCode); //After we get the id from scanning the barcode.
+            displayName.setText(product.getName());
+            displayQuantity.setText(product.getQuantity());
+            displayPrice.setText(String.valueOf(product.getPriceICA()) + " SEK");
+            resultView.setText(String.valueOf(product.getPriceICA()));
+            requiredQuantity.setText("1");
+            addToCart.setVisibility(View.VISIBLE);
+            resultView.setVisibility(View.VISIBLE);
+            quantityLabel.setVisibility(View.VISIBLE);
+            requiredQuantity.setVisibility(View.VISIBLE);
+            updateChart();
+        }
+        public void scanItem(View view)
+        {
+            // launch barcode activity.
+            if(TextUtils.isEmpty(barcodeValue.getText()))
+            { Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
+            intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
+            //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
+            startActivityForResult(intent, RC_BARCODE_CAPTURE);}
+
+            //updateProduct(barcode.rawValue);
+            //Log.i("barcode value:",barcode.displayValue);
+
+
+
+//"0000042" //barcodeValue.getText().toString()
+        }
 
     public void AddToCart(View view)
         {
@@ -149,31 +236,5 @@ public class InShop extends AppCompatActivity
         }
 
 
-    private void updateChart()
-        {
-// Update the text in a center of the chart:
-        TextView totalBudget = findViewById(R.id.total_budget);
-        totalBudget.setText(result + " / " + budget);
-        ProgressBar fraction=findViewById(R.id.stats_progressbar);
 
-        fraction.startAnimation(getBlinkAnimation());
-
-
-
-// Calculate the slice size and update the pie chart:
-        ProgressBar pieChart = findViewById(R.id.stats_progressbar);
-        double d = (double) result / (double) budget;
-        int progress = (int) (d * 100);
-        pieChart.setProgress(progress);
-        }
-
-    public Animation getBlinkAnimation(){
-    Animation animation = new AlphaAnimation(1, 0);         // Change alpha from fully visible to invisible
-    animation.setDuration(300);                             // duration - half a second
-    animation.setInterpolator(new LinearInterpolator());    // do not alter animation rate
-    animation.setRepeatCount(100);                            // Repeat animation infinitely
-    animation.setRepeatMode(Animation.REVERSE);             // Reverse animation at the end so the button will fade back in
-
-    return animation;
-    }
     }
