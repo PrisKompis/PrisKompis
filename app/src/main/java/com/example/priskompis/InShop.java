@@ -32,7 +32,7 @@ public class InShop extends AppCompatActivity
     Intent intent = new Intent();
     private int budget;
     private Database dat = new Database();
-    private ProductModel product;
+    public ProductModel product =new ProductModel();
     private TextView displayName;
     private TextView displayQuantity;
     private TextView displayPrice;
@@ -43,18 +43,16 @@ public class InShop extends AppCompatActivity
     private TextView quantityLabel;
     private Button addToCart;
     private HashMap<String, Order> orderList;
-    private String ID;
 
-        // use a compound button so either checkbox or switch widgets work.
-        private CompoundButton autoFocus;
-        //private CompoundButton useFlash;
-        //private TextView statusMessage;
-        public TextView barcodeValue;
+    private CompoundButton autoFocus;
+    //private CompoundButton useFlash;
+    //private TextView statusMessage;
+    public TextView barcodeValue;
 
-        private static final int RC_BARCODE_CAPTURE = 9001;
-        private static final String TAG = "BarcodeMain";
-        private String scannedText;
-        public Barcode barcode = null;
+    private static final int RC_BARCODE_CAPTURE = 9001;
+    private static final String TAG = "BarcodeMain";
+    public Barcode barcode = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -70,8 +68,7 @@ public class InShop extends AppCompatActivity
         quantityLabel = findViewById(R.id.quantityLabel);
         addToCart = findViewById(R.id.buttonAddCart);
         orderList = new HashMap<>();
-        //barcode=null;
-        product=new ProductModel();
+        //product=new ProductModel();
 
         requiredQuantity.addTextChangedListener(new TextWatcher()
             {
@@ -110,7 +107,6 @@ public class InShop extends AppCompatActivity
             barcodeValue = (TextView)findViewById(R.id.barcode_value);
             autoFocus = (CompoundButton) findViewById(R.id.auto_focus);
             //useFlash = (CompoundButton) findViewById(R.id.use_flash);
-            //findViewById(R.id.buttonScan).setOnClickListener(this);
         }
 
         @Override
@@ -119,10 +115,9 @@ public class InShop extends AppCompatActivity
                 if (resultCode == CommonStatusCodes.SUCCESS) {
                     if (data != null) {
                         barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
-                        //ID=data.getExtras().getString("ID");
                         //statusMessage.setText(R.string.barcode_success);
-                        //barcodeValue.setText(barcode.displayValue);
-                        updateProduct(barcode.rawValue);
+                        barcodeValue.setText(barcode.displayValue);
+                        updateProduct(barcode.rawValue.substring(0, barcode.rawValue.length() - 1));
                         Log.d(TAG, "Barcode read: " + barcode.displayValue);
 
                     } else {
@@ -181,21 +176,13 @@ public class InShop extends AppCompatActivity
             requiredQuantity.setVisibility(View.VISIBLE);
             updateChart();
         }
-        public void scanItem(View view)
-        {
+        public void scanItem(View view){
             // launch barcode activity.
             if(TextUtils.isEmpty(barcodeValue.getText()))
             { Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
             intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
             //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
             startActivityForResult(intent, RC_BARCODE_CAPTURE);}
-
-            //updateProduct(barcode.rawValue);
-            //Log.i("barcode value:",barcode.displayValue);
-
-
-
-//"0000042" //barcodeValue.getText().toString()
         }
 
     public void AddToCart(View view)
