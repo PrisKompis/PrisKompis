@@ -8,7 +8,7 @@ import com.example.priskompis.R;
 
 import java.util.HashMap;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapter extends RecyclerView.com.example.priskompis.Adapter<MyAdapter.MyViewHolder> {
 private HashMap<String, Order> mDataset;
 
 // Provide a reference to the views for each data item
