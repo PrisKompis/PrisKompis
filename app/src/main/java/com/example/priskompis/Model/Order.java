@@ -1,51 +1,79 @@
 package com.example.priskompis.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class Order implements Serializable
+{
+    private HashMap<String, ProductModel> products;
+    private HashMap<String, Integer> productQuantity = new HashMap<>();
+    private float totalPrice = 0;
+
+    public Order() {
+        this.products = new HashMap<>();
+    }
+
+    public HashMap<String, ProductModel> getProducts()
     {
-        private ProductModel product;
-        private float quantity;
-        private float singlePrice;
-        private float totalPrice;
+        return products;
+    }
 
-    public ProductModel getProduct()
-        {
-        return product;
-        }
+    public void setProducts(HashMap<String, ProductModel> product)
+    {
+        this.products = products;
+    }
 
-    public void setProduct(ProductModel product)
-        {
-        this.product = product;
-        }
-
-    public float getQuantity()
-        {
-        return quantity;
-        }
-
-    public void setQuantity(float quantity)
-        {
-        this.quantity = quantity;
-        }
-
-    public float getSinglePrice()
-        {
-        return singlePrice;
-        }
-
-    public void setSinglePrice(float singlePrice)
-        {
-        this.singlePrice = singlePrice;
-        }
-
-    public float getTotalPrice()
-        {
-        return totalPrice;
-        }
+    public HashMap<String, Integer> getProductQuantity() {
+        return productQuantity;
+    }
 
     public void setTotalPrice(float totalPrice)
-        {
+    {
         this.totalPrice = totalPrice;
+    }
+
+    public void addProduct(ProductModel product) {
+
+        Boolean isProductInCart = (this.products.get(product.getID()) != null);
+        if (!isProductInCart) {
+            System.out.println("Product not in cart");
+            this.products.put(product.getID(), product);
+            productQuantity.put(product.getID(), 1);
+        }
+        else{
+            System.out.println("Product is in cart");
+            Integer currentQuantity = productQuantity.get(product.getID());
+            System.out.println("Product is in cart" + currentQuantity);
+            productQuantity.put(product.getID(), currentQuantity + 1);
+        }
+        printProductQuantity();
+    }
+
+    public void setProductQuantity(String productID, Integer quantity) {
+        productQuantity.put(productID, quantity);
+    }
+
+    public float getTotalPrice()
+    {
+        float total = 0;
+        Set<String> keys = products.keySet();
+        //print all the keys
+        for (String key : keys) {
+            ProductModel product = products.get(key);
+            total += product.getPriceICA() * productQuantity.get(product.getID());
+        }
+        return total;
+    }
+
+    public void printProductQuantity() {
+        System.out.println("Printing product quantity");
+        Set<String> keys = productQuantity.keySet();
+        //print all the keys
+        for (String key : keys) {
+            System.out.println(key + ":/:" + productQuantity.get(key));
         }
     }
+}

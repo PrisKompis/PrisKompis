@@ -12,7 +12,10 @@ import android.widget.TextView;
 import com.example.priskompis.Model.ProductModel;
 import com.example.priskompis.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
@@ -22,11 +25,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     //we are storing all the products in a list
     private List<ProductModel> productList;
+    private HashMap<String, ProductModel> productsMap;
+    private HashMap<String, Integer> productQuantity;
 
     //getting the context and product list with constructor
-    public ProductAdapter(Context mCtx, List<ProductModel> productList) {
+    public ProductAdapter(Context mCtx, HashMap<String, ProductModel> productsMap, HashMap<String, Integer> productQuantity) {
         this.mCtx = mCtx;
-        this.productList = productList;
+        this.productsMap = productsMap;
+        this.productQuantity = productQuantity;
+        this.productList = new ArrayList<ProductModel>(productsMap.values());
     }
 
     @NonNull
@@ -48,9 +55,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         productViewHolder.textItem.setText(product.getName());
         productViewHolder.textPrice.setText(String.valueOf(product.getPriceICA()));
 
-
-
-
+        productViewHolder.textQuantity.setText(String.valueOf(productQuantity.get(product.getID())));
+        productViewHolder.textSize.setText(product.getQuantity());
 
     }
     void deleteItem(int index) {
@@ -64,7 +70,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textItem, textPrice;
+        TextView textItem, textPrice, textQuantity, textSize;
         ImageButton delete;
 
         public ProductViewHolder(View itemView) {
@@ -72,10 +78,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             textItem = itemView.findViewById(R.id.itemName);
             textPrice = itemView.findViewById(R.id.itemPrice);
+            textQuantity = itemView.findViewById(R.id.itemQuantity);
+            textSize = itemView.findViewById(R.id.itemSize);
             delete = itemView.findViewById(R.id.item_remove);
         }
     }
 
 
-    }
+}
 
