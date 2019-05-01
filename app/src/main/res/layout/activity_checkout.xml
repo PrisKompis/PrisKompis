@@ -47,5 +47,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="160dp"
         android:layout_marginBottom="71dp"
-        android:text="Checkout" />
+        android:text="Checkout"
+        android:onClick="goToPayment"/>
 </RelativeLayout>

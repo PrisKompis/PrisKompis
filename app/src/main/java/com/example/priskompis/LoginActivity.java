@@ -2,6 +2,8 @@ package com.example.priskompis;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,12 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-private Button btnSignIn,btnSignup;
-private FirebaseAuth mAuth;
-private ProgressDialog mDialog;
-private EditText email;
-private EditText password;
-
+    private static final String APP_PREFERENCES = "appPreferences";
+    private Button btnSignIn,btnSignup;
+    private FirebaseAuth mAuth;
+    private ProgressDialog mDialog;
+    private EditText email;
+    private EditText password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +33,12 @@ private EditText password;
         setContentView(R.layout.activity_login);
         mAuth=FirebaseAuth.getInstance();
 
+        mDialog=new ProgressDialog(this);
 
+        email=findViewById(R.id.email_reg);
+        password=findViewById(R.id.password_reg);
 
-
-    mDialog=new ProgressDialog(this);
-
-    email=findViewById(R.id.email_reg);
-    password=findViewById(R.id.password_reg);
-
-    btnSignIn=findViewById(R.id.btnsignin_reg);
+        btnSignIn=findViewById(R.id.btnsignin_reg);
         btnSignup = findViewById(R.id.btnsignup_reg);
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,50 +47,58 @@ private EditText password;
                 startActivity(intent);
             }
         });
-    }
 
+    }
 
     public void loginToApp(View view) {
 
-    {
-
-    String mEmail=email.getText().toString().trim();
-    String mPass=password.getText().toString().trim();
-
-    if (TextUtils.isEmpty(mEmail)){
-    email.setError("Required Field..");
-    return;
-    }
-    if (TextUtils.isEmpty(mPass)){
-    password.setError("Required Field..");
-    return;
-    }
-
-    mDialog.setMessage("Processing..");
-    mDialog.show();
-
-    mAuth.signInWithEmailAndPassword(mEmail,mPass).addOnCompleteListener(new OnCompleteListener<AuthResult>()
         {
-        @Override
-        public void onComplete(@NonNull Task<AuthResult> task)
-            {
-            if (task.isSuccessful())
-                {
-                mDialog.dismiss();
-                startActivity(new Intent(getApplicationContext(), BudgetSet.class));
+            final String mEmail=email.getText().toString().trim();
+            final String mPass=password.getText().toString().trim();
 
-                Toast.makeText(getApplicationContext(), "Login Complete", Toast.LENGTH_SHORT).show();
-                }
-            else
-                {
-                Toast.makeText(getApplicationContext(), "Problem..", Toast.LENGTH_SHORT).show();
-
-                }
-
+            if (TextUtils.isEmpty(mEmail)){
+                email.setError("Required Field..");
+                return;
+            }
+            if (TextUtils.isEmpty(mPass)){
+                password.setError("Required Field..");
+                return;
             }
 
-        });
+            mDialog.setMessage("Processing..");
+            mDialog.show();
+
+            mAuth.signInWithEmailAndPassword(mEmail,mPass).addOnCompleteListener(new OnCompleteListener<AuthResult>()
+            {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task)
+                {
+                    if (task.isSuccessful())
+                    {
+                        mDialog.dismiss();
+                        setEmailToPreferences(mEmail);
+                        startActivity(new Intent(getApplicationContext(), BudgetSet.class));
+                        Toast.makeText(getApplicationContext(), "Login Complete", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(), "Problem..", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                }
+
+            });
+
+
+        }
+    }
+
+    public void setEmailToPreferences(String email) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putString("userEmail", email);
+        edit.apply();
 
     }
-}
 }
