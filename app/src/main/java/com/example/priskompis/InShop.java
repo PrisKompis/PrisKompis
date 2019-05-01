@@ -212,8 +212,9 @@ public class InShop extends AppCompatActivity
         // launch barcode activity.
 
         Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
-
+        // intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
         //updateProduct("0000042");
+        //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
         startActivityForResult(intent, RC_BARCODE_CAPTURE);
     }
 
@@ -223,7 +224,6 @@ public class InShop extends AppCompatActivity
         if (TextUtils.isEmpty(requiredQuantity.getText()))
         {
             requiredQuantity.setError("Quantity can not be empty");
-
             return;
         }
 
@@ -270,7 +270,4 @@ public class InShop extends AppCompatActivity
         startActivity(intent);
 
     }
-
-
-
 }

@@ -17,8 +17,6 @@ public class BudgetSet extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_set);
         budgetInput=findViewById(R.id.editTextBudget);
-
-
         }
 
     @Override
