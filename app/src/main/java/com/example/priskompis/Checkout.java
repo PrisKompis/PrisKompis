@@ -1,22 +1,21 @@
 package com.example.priskompis;
 
 import android.content.Intent;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.EditText;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.priskompis.Adapter.ProductAdapter;
 import com.example.priskompis.Model.Order;
 import com.example.priskompis.Model.ProductModel;
 
-import java.nio.file.FileSystemLoopException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
+import java.util.Arrays;
 
 public class Checkout extends AppCompatActivity {
 
@@ -27,14 +26,13 @@ public class Checkout extends AppCompatActivity {
     //the recyclerview
     RecyclerView recyclerView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
     Intent intent = this.getIntent();
     Bundle bundle = intent.getExtras();
-//Type object = (Type) bundle.getSerializable("KEY");
+    //Type object = (Type) bundle.getSerializable("KEY");
     Order myOrder = (Order) bundle.getSerializable("order");
 
         recyclerView = (RecyclerView) findViewById(R.id.cartListView);
@@ -56,10 +54,16 @@ public class Checkout extends AppCompatActivity {
 
         //setting adapter to recyclerview
         recyclerView.setAdapter(adapter);
-
         TextView totalPrice = findViewById(R.id.txt_totalprice);
         totalPrice.setText(String.valueOf(myOrder.getTotalPrice()) + " SEK");
 
     }
 
+    public void goToPayment(View view) {
+        Intent intent = new Intent(this, Payment.class);
+        TextView amt = findViewById(R.id.txt_totalprice);
+        float totalPrice = Float.parseFloat(amt.getText().toString().split(" ")[0])*100;
+        intent.putExtra("totalPrice", String.valueOf(Math.round(totalPrice)));
+        this.startActivity (intent);
+    }
 }
