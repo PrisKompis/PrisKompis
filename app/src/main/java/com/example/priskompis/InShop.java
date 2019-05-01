@@ -116,7 +116,7 @@ public class InShop extends AppCompatActivity
                     barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
                     //statusMessage.setText(R.string.barcode_success);
                     barcodeValue.setText(barcode.displayValue);
-                    updateProduct(barcode.rawValue.substring(0, barcode.rawValue.length() - 1));
+                    //updateProduct(barcode.rawValue.substring(0, barcode.rawValue.length() - 1));
                     //updateProduct("0000042");
                     Log.d(TAG, "Barcode read: " + barcode.displayValue);
 
