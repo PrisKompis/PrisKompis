@@ -34,6 +34,18 @@
         android:indeterminate="false"
         android:max="100"
 
+        android:progressDrawable="@drawable/flashstats_progress"
+        />
+
+    <ProgressBar
+        android:id="@+id/stats_totalprogressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="336dp"
+        android:layout_height="250dp"
+        android:layout_centerInParent="true"
+        android:indeterminate="false"
+        android:max="100"
+
         android:progressDrawable="@drawable/stats_progress"
         />
 
@@ -153,7 +165,7 @@
 
     <Button
         android:id="@+id/buttonScan"
-        android:layout_width=""
+        android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_marginStart="4dp"
         android:onClick="scanItem"
@@ -165,7 +177,7 @@
 
     <Button
         android:id="@+id/buttonCheckOut"
-        android:layout_width=""
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_weight="2"
         android:onClick="checkOut"

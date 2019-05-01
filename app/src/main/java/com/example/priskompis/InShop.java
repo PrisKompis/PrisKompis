@@ -49,11 +49,14 @@ public class InShop extends AppCompatActivity
     private CompoundButton autoFocus;
     //private CompoundButton useFlash;
     //private TextView statusMessage;
-    public TextView barcodeValue;
-
+    private TextView barcodeValue;
+    private TextView totalBudget;
     private static final int RC_BARCODE_CAPTURE = 9001;
     private static final String TAG = "BarcodeMain";
-    public Barcode barcode = null;
+    private Barcode barcode = null;
+    private ProgressBar fraction;
+    private ProgressBar totalProgress;
+
 
 
     @Override
@@ -70,6 +73,10 @@ public class InShop extends AppCompatActivity
         quantityLabel = findViewById(R.id.quantityLabel);
         addToCart = findViewById(R.id.buttonAddCart);
         orderList = new HashMap<>();
+        result=0;
+        totalBudget=findViewById(R.id.total_budget);
+        fraction=findViewById(R.id.stats_progressbar);
+        totalProgress = findViewById(R.id.stats_totalprogressbar);
         //product=new ProductModel();
 
         requiredQuantity.addTextChangedListener(new TextWatcher()
@@ -97,14 +104,21 @@ public class InShop extends AppCompatActivity
                 {
                     reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
                     float price = product.getPriceICA();
+                    result=(float)(Math.round(price*reqQuantity*10.0)/10.0);
+                    resultView.setText(String.valueOf(result));
+                    totalBudget.setText(orderTotal +result+ " / " + budget);
+                    totalProgress.setVisibility(View.INVISIBLE);
+
                     updateChart();
+                    fraction.setVisibility(View.VISIBLE);
+
                 }
             }
         });
         budget = intent.getIntExtra("budget", 0);
 
         barcodeValue = (TextView)findViewById(R.id.barcode_value);
-        autoFocus = (CompoundButton) findViewById(R.id.auto_focus);
+
         //useFlash = (CompoundButton) findViewById(R.id.use_flash);
     }
 
@@ -116,7 +130,7 @@ public class InShop extends AppCompatActivity
                     barcode = data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
                     //statusMessage.setText(R.string.barcode_success);
                     barcodeValue.setText(barcode.displayValue);
-                    //updateProduct(barcode.rawValue.substring(0, barcode.rawValue.length() - 1));
+                    updateProduct(barcode.rawValue.substring(0, barcode.rawValue.length() - 1));
                     //updateProduct("0000042");
                     Log.d(TAG, "Barcode read: " + barcode.displayValue);
 
@@ -136,22 +150,26 @@ public class InShop extends AppCompatActivity
 
     private void updateChart()
     {
-        orderTotal = order.getTotalPrice();
-        resultView.setText(String.valueOf(orderTotal));
+        //orderTotal = order.getTotalPrice();
+
         // Update the text in a center of the chart:
         TextView totalBudget = findViewById(R.id.total_budget);
         totalBudget.setText(orderTotal + " / " + budget);
-        ProgressBar fraction=findViewById(R.id.stats_progressbar);
 
+        fraction.setVisibility(View.VISIBLE);
         fraction.startAnimation(getBlinkAnimation());
-
+        displayPrice.setVisibility(View.VISIBLE);
+        displayQuantity.setVisibility(View.VISIBLE);
+        displayName.setTextSize(18);
 
 
 // Calculate the slice size and update the pie chart:
-        ProgressBar pieChart = findViewById(R.id.stats_progressbar);
+
+
         double d = (double) orderTotal / (double) budget;
         int progress = (int) (d * 100);
-        pieChart.setProgress(progress);
+        totalProgress.setProgress(progress);
+        fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget)));
     }
 
     public Animation getBlinkAnimation(){
@@ -173,24 +191,30 @@ public class InShop extends AppCompatActivity
             displayName.setText(product.getName());
             displayQuantity.setText(String.valueOf(product.getQuantity()));
             displayPrice.setText(String.valueOf(product.getPriceICA()) + " SEK");
-            resultView.setText(String.valueOf(product.getPriceICA()));
+            //resultView.setText(String.valueOf(product.getPriceICA()));
             requiredQuantity.setText("1");
+            reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
+            result=reqQuantity*product.getPriceICA();
+            resultView.setText(String.valueOf(result));
             addToCart.setVisibility(View.VISIBLE);
             resultView.setVisibility(View.VISIBLE);
             quantityLabel.setVisibility(View.VISIBLE);
             requiredQuantity.setVisibility(View.VISIBLE);
             System.out.println("Finished Setting all the display properties");
         }
+    else
+            {
+            Log.i("Product:","Not found");
+            }
 
     }
     public void scanItem(View view){
         // launch barcode activity.
 
         Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
-        intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
-        updateProduct("0000042");
-        //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
-        //startActivityForResult(intent, RC_BARCODE_CAPTURE);
+
+        //updateProduct("0000042");
+        startActivityForResult(intent, RC_BARCODE_CAPTURE);
     }
 
 
@@ -205,17 +229,31 @@ public class InShop extends AppCompatActivity
 
         reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
         order.addProduct(product);
+        orderTotal+=Float.parseFloat(resultView.getText().toString());
         updateChart();
 
         resetView();
     }
 
     public void resetView(){
-        displayName.setText("");
+        /*displayName.setText("");
         displayQuantity.setText("");
         displayPrice.setText("");
         resultView.setText("");
-        requiredQuantity.setText("");
+        requiredQuantity.setText("");*/
+        quantityLabel.setVisibility(View.INVISIBLE);
+        requiredQuantity.setVisibility(View.INVISIBLE);
+        resultView.setVisibility(View.INVISIBLE);
+        addToCart.setVisibility(View.INVISIBLE);
+        barcodeValue.setVisibility(View.INVISIBLE);
+        displayPrice.setVisibility(View.INVISIBLE);
+        displayQuantity.setVisibility(View.INVISIBLE);
+        displayName.setTextSize(25);
+        displayName.setText("Scan Next Item or Click Checkout to complete Shopping");
+        fraction.setVisibility(View.INVISIBLE);
+    totalProgress.setVisibility(View.VISIBLE);
+
+
     }
 
     public void clearText(View view)
