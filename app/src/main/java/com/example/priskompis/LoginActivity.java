@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String APP_PREFERENCES = "appPreferences";
     private Button btnSignIn,btnSignup;
     private FirebaseAuth mAuth;
     private ProgressDialog mDialog;
