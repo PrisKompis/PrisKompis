@@ -9,8 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,17 +28,33 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog mDialog;
     private EditText email;
     private EditText password;
+    private ImageView logo;
+    Animation frombottom;
+    Animation fromtop;
+    Animation fadein;
+    Animation forlogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try
+        {
+            this.getSupportActionBar().hide();
+        }
+        catch (NullPointerException e){}
         setContentView(R.layout.activity_login);
         mAuth=FirebaseAuth.getInstance();
+
+        frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
+        fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
+        forlogo = AnimationUtils.loadAnimation(this,R.anim.forlogo);
 
         mDialog=new ProgressDialog(this);
 
         email=findViewById(R.id.email_reg);
+        email.setAnimation(fromtop);
         password=findViewById(R.id.password_reg);
+        password.setAnimation(fromtop);
 
         btnSignIn=findViewById(R.id.btnsignin_reg);
         btnSignup = findViewById(R.id.btnsignup_reg);
@@ -47,6 +66,10 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        logo=findViewById(R.id.imageView3);
+        logo.setAnimation(forlogo);
+        btnSignIn.setAnimation(fromtop);
+        btnSignup.setAnimation(frombottom);
     }
 
     public void loginToApp(View view) {
