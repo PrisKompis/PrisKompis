@@ -20,16 +20,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUp extends AppCompatActivity {
-    private EditText email;
-    private EditText pass,repass;
-    private Button btnSignup;
-    private FirebaseAuth mAuth;
-    private ProgressDialog mDialog;
-    private ImageView logo;
-    Animation frombottom;
-    Animation fromtop;
-    Animation forlogo;
-
+private EditText email;
+private EditText pass,repass;
+private Button btnSignup;
+private FirebaseAuth mAuth;
+private ProgressDialog mDialog;
+private ImageView logo;
+Animation frombottom;
+Animation fromtop;
+Animation forlogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,57 +63,57 @@ public class SignUp extends AppCompatActivity {
         btnSignup.setAnimation(frombottom);
 
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
+            btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
-            {
+                {
 
                 String mEmail = email.getText().toString().trim();
                 String mPass = pass.getText().toString().trim();
                 String mRepass = repass.getText().toString().trim();
 
                 if (TextUtils.isEmpty(mEmail))
-                {
+                    {
                     email.setError("Required Field..");
                     return;
-                }
+                    }
                 if (TextUtils.isEmpty(mPass))
-                {
+                    {
                     pass.setError("Required Field..");
                     return;
-                }
+                    }
 
                 if (TextUtils.isEmpty(mRepass))
-                {
+                    {
                     repass.setError("Required Field");
                     return;
-                }
+                    }
 
                 if (!(mPass.equals(mRepass)))
-                {Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_SHORT);
+                    {Toast.makeText(getApplicationContext(), "Passwords do not match!", Toast.LENGTH_SHORT);
 
                 }
 
 
 
-                mDialog.setMessage("Processing..");
-                mDialog.show();
+            mDialog.setMessage("Processing..");
+            mDialog.show();
 
-                mAuth.createUserWithEmailAndPassword(mEmail,mPass).addOnCompleteListener(new OnCompleteListener<AuthResult>()
+            mAuth.createUserWithEmailAndPassword(mEmail,mPass).addOnCompleteListener(new OnCompleteListener<AuthResult>()
                 {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task)
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task)
                     {
-                        if (task.isSuccessful())
+                    if (task.isSuccessful())
                         {
-                            mDialog.dismiss();
-                            startActivity(new Intent(getApplicationContext(), BudgetSet.class));
-                            Toast.makeText(getApplicationContext(), "Registration Complete", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                        startActivity(new Intent(getApplicationContext(), BudgetSet.class));
+                        Toast.makeText(getApplicationContext(), "Registration Complete", Toast.LENGTH_SHORT).show();
 
                         }
-                        else
+                    else
                         {
-                            Toast.makeText(getApplicationContext(), "Problem", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Problem", Toast.LENGTH_SHORT).show();
 
                         }
                     }
