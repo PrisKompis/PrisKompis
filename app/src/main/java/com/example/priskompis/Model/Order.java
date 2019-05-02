@@ -9,11 +9,14 @@ import java.util.Set;
 public class Order implements Serializable
 {
     private HashMap<String, ProductModel> products;
-    private HashMap<String, Integer> productQuantity = new HashMap<>();
+    private HashMap<String, Float>productQuantity = new HashMap<>();
     private float totalPrice = 0;
+
 
     public Order() {
         this.products = new HashMap<>();
+
+
     }
 
     public HashMap<String, ProductModel> getProducts()
@@ -26,7 +29,7 @@ public class Order implements Serializable
         this.products = products;
     }
 
-    public HashMap<String, Integer> getProductQuantity() {
+    public HashMap<String, Float> getProductQuantity() {
         return productQuantity;
     }
 
@@ -35,24 +38,24 @@ public class Order implements Serializable
         this.totalPrice = totalPrice;
     }
 
-    public void addProduct(ProductModel product) {
+    public void addProduct(ProductModel product, Float quantity) {
 
         Boolean isProductInCart = (this.products.get(product.getID()) != null);
         if (!isProductInCart) {
             System.out.println("Product not in cart");
             this.products.put(product.getID(), product);
-            productQuantity.put(product.getID(), 1);
+            productQuantity.put(product.getID(),quantity);
         }
         else{
             System.out.println("Product is in cart");
-            Integer currentQuantity = productQuantity.get(product.getID());
+            Float currentQuantity = productQuantity.get(product.getID());
             System.out.println("Product is in cart" + currentQuantity);
-            productQuantity.put(product.getID(), currentQuantity + 1);
+            productQuantity.put(product.getID(), currentQuantity + quantity);
         }
         printProductQuantity();
     }
 
-    public void setProductQuantity(String productID, Integer quantity) {
+    public void setProductQuantity(String productID, Float quantity) {
         productQuantity.put(productID, quantity);
     }
 

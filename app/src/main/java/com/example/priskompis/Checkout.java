@@ -21,7 +21,7 @@ public class Checkout extends AppCompatActivity {
 
     //a list to store all the products
     HashMap<String, ProductModel> productList;
-    HashMap<String, Integer> productQuantity;
+    HashMap<String, Float> productQuantity;
 
     //the recyclerview
     RecyclerView recyclerView;
@@ -34,6 +34,7 @@ public class Checkout extends AppCompatActivity {
     Bundle bundle = intent.getExtras();
     //Type object = (Type) bundle.getSerializable("KEY");
     Order myOrder = (Order) bundle.getSerializable("order");
+    HashMap<String,Float> quantities=(HashMap<String, Float>) bundle.getSerializable("quantities");
 
         recyclerView = (RecyclerView) findViewById(R.id.cartListView);
         recyclerView.setHasFixedSize(true);
