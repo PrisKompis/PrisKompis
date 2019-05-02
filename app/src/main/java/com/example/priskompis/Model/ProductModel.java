@@ -18,7 +18,6 @@ public class ProductModel implements Serializable
     private float priceCoop;
 
 
-
     public float getPriceWillys()
     {
         return priceWillys;
