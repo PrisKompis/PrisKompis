@@ -106,7 +106,7 @@ public class InShop extends AppCompatActivity
                     float price = product.getPriceICA();
                     result=(float)(Math.round(price*reqQuantity*10.0)/10.0);
                     resultView.setText(String.valueOf(result));
-                    totalBudget.setText(orderTotal +result+ " SEK/ " + budget+" SEK");
+                    totalBudget.setText((float)(Math.round(orderTotal*10.0)/10.0) +result+ " SEK/ " + budget+" SEK");
                     totalBudget.startAnimation(getBlinkAnimation());
                     //totalProgress.setVisibility(View.INVISIBLE);
 
@@ -213,6 +213,7 @@ return animation;
             resultView.setVisibility(View.VISIBLE);
             quantityLabel.setVisibility(View.VISIBLE);
             requiredQuantity.setVisibility(View.VISIBLE);
+            totalProgress.setVisibility(View.VISIBLE);
             System.out.println("Finished Setting all the display properties");
         }
     else
@@ -242,7 +243,7 @@ return animation;
 
         reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
         order.addProduct(product,reqQuantity);
-        orderTotal+=Float.parseFloat(resultView.getText().toString());
+        orderTotal+=Math.round(Float.parseFloat(resultView.getText().toString())*10.0/10.0);
         quantityList.put(product.getID(),reqQuantity);
         updateChart();
 

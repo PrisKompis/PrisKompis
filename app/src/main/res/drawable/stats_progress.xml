@@ -6,10 +6,7 @@
         android:innerRadius="100dp"
         android:shape="ring"
         android:thickness="30dp"
-        android:useLevel="true"
-        >
-        <solid android:color="@color/colorAccent"
-
-            />
+        android:useLevel="true">
+        <solid android:color="@color/colorAccent" />
     </shape>
 </rotate>
