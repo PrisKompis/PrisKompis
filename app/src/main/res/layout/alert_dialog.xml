@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="You have exceeded your budget limit. "
+            android:text="You have exceeded your budget limit. \n Do you want to continue shopping ? "
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -46,7 +46,19 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@drawable/button_background"
-            android:text="Ok"
+            android:text="Yes"
+            android:onClick="popupClickHandler"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/buttonCancel"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/button_background"
+            android:text="No"
+            android:onClick="popupClickHandler"
             android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
