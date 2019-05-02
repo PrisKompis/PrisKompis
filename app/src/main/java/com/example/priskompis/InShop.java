@@ -243,7 +243,7 @@ return animation;
 
         reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
         order.addProduct(product,reqQuantity);
-        orderTotal+=Float.parseFloat(resultView.getText().toString());
+        orderTotal+=Math.round(Float.parseFloat(resultView.getText().toString())*10.0/10.0);
         quantityList.put(product.getID(),reqQuantity);
         updateChart();
 
