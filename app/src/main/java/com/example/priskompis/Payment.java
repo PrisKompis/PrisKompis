@@ -57,7 +57,7 @@ public class Payment extends AppCompatActivity {
                     new TokenCallback() {
                         public void onSuccess(Token token) {
                             // Send token to your server
-                            Toast.makeText(getApplicationContext(), "Token created: " + token.getId(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
                             String receiptURL = null;
                             try {
                                 receiptURL = new StripeCharge(token.getId(), amount).execute().get(30, TimeUnit.SECONDS);
