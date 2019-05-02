@@ -26,10 +26,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     //we are storing all the products in a list
     private List<ProductModel> productList;
     private HashMap<String, ProductModel> productsMap;
-    private HashMap<String, Integer> productQuantity;
+    private HashMap<String, Float> productQuantity;
 
     //getting the context and product list with constructor
-    public ProductAdapter(Context mCtx, HashMap<String, ProductModel> productsMap, HashMap<String, Integer> productQuantity) {
+    public ProductAdapter(Context mCtx, HashMap<String, ProductModel> productsMap, HashMap<String, Float> productQuantity) {
         this.mCtx = mCtx;
         this.productsMap = productsMap;
         this.productQuantity = productQuantity;

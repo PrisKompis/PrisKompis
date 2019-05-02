@@ -43,7 +43,7 @@ public class InShop extends AppCompatActivity
     private float orderTotal;
     private TextView quantityLabel;
     private Button addToCart;
-    private HashMap<String, Order> orderList;
+    private HashMap<String, Float> quantityList=new HashMap<>();
     private Order order = new Order();
 
     private CompoundButton autoFocus;
@@ -72,7 +72,7 @@ public class InShop extends AppCompatActivity
         resultView = findViewById(R.id.textViewResult);
         quantityLabel = findViewById(R.id.quantityLabel);
         addToCart = findViewById(R.id.buttonAddCart);
-        orderList = new HashMap<>();
+
         result=0;
         totalBudget=findViewById(R.id.total_budget);
         fraction=findViewById(R.id.stats_progressbar);
@@ -213,9 +213,9 @@ public class InShop extends AppCompatActivity
 
         Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
         // intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
-        //updateProduct("0000042");
+        updateProduct("0000042");
         //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
-        startActivityForResult(intent, RC_BARCODE_CAPTURE);
+        //startActivityForResult(intent, RC_BARCODE_CAPTURE);
     }
 
 
@@ -228,8 +228,9 @@ public class InShop extends AppCompatActivity
         }
 
         reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
-        order.addProduct(product);
+        order.addProduct(product,reqQuantity);
         orderTotal+=Float.parseFloat(resultView.getText().toString());
+        quantityList.put(product.getID(),reqQuantity);
         updateChart();
 
         resetView();
@@ -266,6 +267,7 @@ public class InShop extends AppCompatActivity
         Bundle bundle = new Bundle();
         Intent intent = new Intent(getApplicationContext(), Checkout.class);
         bundle.putSerializable("order", order);
+        bundle.putSerializable("quantities",quantityList);
         intent.putExtras(bundle);
         startActivity(intent);
 
