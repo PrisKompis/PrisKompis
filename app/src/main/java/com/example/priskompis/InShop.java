@@ -75,7 +75,7 @@ public class InShop extends AppCompatActivity
         resultView = findViewById(R.id.textViewResult);
         quantityLabel = findViewById(R.id.quantityLabel);
         addToCart = findViewById(R.id.buttonAddCart);
-
+        orderTotal=0;
         result=0;
         totalBudget=findViewById(R.id.total_budget);
         fraction=findViewById(R.id.stats_progressbar);
@@ -244,11 +244,14 @@ return animation;
             return;
         }
 
+            if(orderTotal+result>budget)
+                dialog();
 
     else
     {
     reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
     order.addProduct(product, reqQuantity);
+
     orderTotal += Math.round(Float.parseFloat(resultView.getText().toString()) * 10.0 / 10.0);
     quantityList.put(product.getID(), reqQuantity);
     updateChart();

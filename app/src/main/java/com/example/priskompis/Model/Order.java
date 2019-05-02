@@ -1,6 +1,7 @@
 package com.example.priskompis.Model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,13 +23,21 @@ public class Order implements Serializable
 @Override
 public String toString()
     {
+    DecimalFormat df = new DecimalFormat("#.#");
     String result="";
+    for(String id:products.keySet())
+        {
+        result+= products.get(id).getName() + "\t" + products.get(id).getQuantity() + "\t" + productQuantity.get(id) + " x " + products.get(id).getPriceICA() + "\t" + df.format((double)productQuantity.get(id)*(double)products.get(id).getPriceICA())+"\n";
+        }
 
 
 
 
     return result;
     }
+
+
+
 
     public HashMap<String, ProductModel> getProducts()
     {
@@ -61,6 +70,7 @@ public String toString()
             System.out.println("Product is in cart");
             Float currentQuantity = productQuantity.get(product.getID());
             System.out.println("Product is in cart" + currentQuantity);
+
             productQuantity.put(product.getID(), currentQuantity + quantity);
         }
         printProductQuantity();
