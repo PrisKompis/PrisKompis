@@ -7,8 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,20 +25,42 @@ private EditText pass,repass;
 private Button btnSignup;
 private FirebaseAuth mAuth;
 private ProgressDialog mDialog;
-
+private ImageView logo;
+Animation frombottom;
+Animation fromtop;
+Animation forlogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try
+        {
+            this.getSupportActionBar().hide();
+        }
+        catch (NullPointerException e){}
         setContentView(R.layout.activity_sign_up);
         mAuth=FirebaseAuth.getInstance();
 
+        frombottom = AnimationUtils.loadAnimation(this,R.anim.frombottom);
+        fromtop = AnimationUtils.loadAnimation(this,R.anim.fromtop);
+        forlogo = AnimationUtils.loadAnimation(this,R.anim.forlogo);
+
         mDialog=new ProgressDialog(this);
 
+        logo=findViewById(R.id.imageView);
+        logo.setAnimation(forlogo);
+
         email=findViewById(R.id.btn_emailId);
+        email.setAnimation(fromtop);
+
         pass=findViewById(R.id.btn_pwd);
+        pass.setAnimation(fromtop);
+
         repass=findViewById(R.id.btn_retypepwd);
+        repass.setAnimation(fromtop);
+
         btnSignup = findViewById(R.id.btn_reg);
+        btnSignup.setAnimation(frombottom);
 
 
             btnSignup.setOnClickListener(new View.OnClickListener() {
