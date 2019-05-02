@@ -230,9 +230,9 @@ return animation;
 
         Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
         // intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
-        updateProduct("0000042");
+        //updateProduct("0000042");
         //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
-        //startActivityForResult(intent, RC_BARCODE_CAPTURE);
+        startActivityForResult(intent, RC_BARCODE_CAPTURE);
     }
 
 

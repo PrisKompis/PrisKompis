@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.TintableBackgroundView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -39,10 +40,13 @@ public class Payment extends AppCompatActivity {
 
         CardInputWidget mCardInputWidget = (CardInputWidget) findViewById(R.id.card_input_widget);
         Card card = mCardInputWidget.getCard();
-        card.setCurrency("sek");
-        card.setName("Saranya");
-        card.setAddressZip("12143");
+
         if (card != null) {
+
+            card.setCurrency("sek");
+            card.setName("Saranya");
+            card.setAddressZip("12143");
+
             System.out.println("Creating Token..");
             System.out.println(card.getNumber());
 
@@ -53,7 +57,7 @@ public class Payment extends AppCompatActivity {
                     new TokenCallback() {
                         public void onSuccess(Token token) {
                             // Send token to your server
-                            Toast.makeText(getApplicationContext(), "Token created: " + token.getId(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
                             String receiptURL = null;
                             try {
                                 receiptURL = new StripeCharge(token.getId(), amount).execute().get(30, TimeUnit.SECONDS);
@@ -88,6 +92,14 @@ public class Payment extends AppCompatActivity {
                         }
                     }
             );
+        } else
+        {
+            Toast.makeText(Payment.this,
+                    "Enter card details to proceed with payment",
+                    Toast.LENGTH_LONG
+            ).show();
+            Log.d("Invalid","Invalid");
+            return;
         }
     }
 
