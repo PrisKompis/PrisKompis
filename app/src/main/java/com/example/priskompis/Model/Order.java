@@ -19,6 +19,17 @@ public class Order implements Serializable
 
     }
 
+@Override
+public String toString()
+    {
+    String result="";
+
+
+
+
+    return result;
+    }
+
     public HashMap<String, ProductModel> getProducts()
     {
         return products;

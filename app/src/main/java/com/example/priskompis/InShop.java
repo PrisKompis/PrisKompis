@@ -1,13 +1,16 @@
 package com.example.priskompis;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -112,7 +115,7 @@ public class InShop extends AppCompatActivity
 
                     //updateChart();
                     fraction.setVisibility(View.VISIBLE);
-                    fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget)));
+                    fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget))*100);
 
                 }
             }
@@ -171,7 +174,7 @@ public class InShop extends AppCompatActivity
         double d = (double) orderTotal / (double) budget;
         int progress = (int) (d * 100);
         totalProgress.setProgress(progress);
-        fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget)));
+        fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget))*100);
 
     }
 
@@ -241,14 +244,47 @@ return animation;
             return;
         }
 
-        reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
-        order.addProduct(product,reqQuantity);
-        orderTotal+=Math.round(Float.parseFloat(resultView.getText().toString())*10.0/10.0);
-        quantityList.put(product.getID(),reqQuantity);
-        updateChart();
 
-        resetView();
+    else
+    {
+    reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
+    order.addProduct(product, reqQuantity);
+    orderTotal += Math.round(Float.parseFloat(resultView.getText().toString()) * 10.0 / 10.0);
+    quantityList.put(product.getID(), reqQuantity);
+    updateChart();
+
+    resetView();
     }
+    }
+
+public void dialog(){
+//before inflating the custom alert dialog layout, we will get the current activity viewgroup
+ViewGroup viewGroup = findViewById(android.R.id.content);
+
+//then we will inflate the custom alert dialog xml that we created
+View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_dialog, viewGroup, false);
+//Now we need an AlertDialog.Builder object
+AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+//setting the view of the builder to our custom view that we already inflated
+builder.setView(dialogView);
+
+//finally creating the alert dialog and displaying it
+final AlertDialog alertDialog = builder.create();
+alertDialog.show();
+
+Button button = dialogView.findViewById(R.id.buttonOk);
+button.setOnClickListener(new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+alertDialog.cancel();
+}
+});
+
+
+
+
+}
 
     public void resetView(){
         /*displayName.setText("");
