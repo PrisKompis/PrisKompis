@@ -106,11 +106,13 @@ public class InShop extends AppCompatActivity
                     float price = product.getPriceICA();
                     result=(float)(Math.round(price*reqQuantity*10.0)/10.0);
                     resultView.setText(String.valueOf(result));
-                    totalBudget.setText(orderTotal +result+ " / " + budget);
-                    totalProgress.setVisibility(View.INVISIBLE);
+                    totalBudget.setText(orderTotal +result+ " SEK/ " + budget+" SEK");
+                    totalBudget.startAnimation(getBlinkAnimation());
+                    //totalProgress.setVisibility(View.INVISIBLE);
 
-                    updateChart();
+                    //updateChart();
                     fraction.setVisibility(View.VISIBLE);
+                    fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget)));
 
                 }
             }
@@ -170,6 +172,7 @@ public class InShop extends AppCompatActivity
         int progress = (int) (d * 100);
         totalProgress.setProgress(progress);
         fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget)));
+
     }
 
     public Animation getBlinkAnimation(){
@@ -181,6 +184,16 @@ public class InShop extends AppCompatActivity
 
         return animation;
     }
+
+public Animation stopBlinkAnimation(){
+Animation animation = new AlphaAnimation(1,1);         // Change alpha from fully visible to invisible
+animation.setDuration(300);                             // duration - half a second
+animation.setInterpolator(new LinearInterpolator());    // do not alter animation rate
+animation.setRepeatCount(100);                            // Repeat animation infinitely
+animation.setRepeatMode(Animation.REVERSE);             // Reverse animation at the end so the button will fade back in
+
+return animation;
+}
 
     public void updateProduct(String barCode)
     {
@@ -213,9 +226,10 @@ public class InShop extends AppCompatActivity
 
         Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
         // intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
-        //updateProduct("0000042");
+
+        updateProduct("0000042");
         //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
-        startActivityForResult(intent, RC_BARCODE_CAPTURE);
+        //startActivityForResult(intent, RC_BARCODE_CAPTURE);
     }
 
 
@@ -251,7 +265,8 @@ public class InShop extends AppCompatActivity
         displayName.setTextSize(25);
         displayName.setText("Scan Next Item or Click Checkout to complete Shopping");
         fraction.setVisibility(View.INVISIBLE);
-    totalProgress.setVisibility(View.VISIBLE);
+        totalProgress.setVisibility(View.VISIBLE);
+        totalBudget.startAnimation(stopBlinkAnimation());
 
 
     }
