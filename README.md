@@ -1,7 +1,7 @@
 # PrisKompis
 SDA - Android Group Project 
 
-Pris Kompis is budget friendly pocket shopping application
+Pris Kompis translates to 'Price Buddy' is budget friendly pocket shopping application.
 
 Highlights of the Application
 
