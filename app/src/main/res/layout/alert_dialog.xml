@@ -35,9 +35,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="You have exceeded your budget limit. \n Do you want to continue shopping ? "
+            android:text="You have exceeded your budget limit. \n Do you want to set a new budget ? "
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Enter new Budget Here"
+
+            android:id="@+id/editBudgetLimit"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
 
         <Button
             android:id="@+id/buttonOk"
@@ -46,7 +57,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@drawable/button_background"
-            android:text="Yes"
+            android:text="Set New Budget"
             android:onClick="popupClickHandler"
             android:textColor="@color/colorPrimary" />
 
@@ -57,7 +68,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@drawable/button_background"
-            android:text="No"
+            android:text="Cancel"
             android:onClick="popupClickHandler"
             android:textColor="@color/colorPrimary" />
 
