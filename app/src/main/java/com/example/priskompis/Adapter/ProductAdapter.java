@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.priskompis.Model.ProductModel;
 import com.example.priskompis.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     //this context we will use to inflate the layout
     private Context mCtx;
-
+    private DecimalFormat df = new DecimalFormat("#.#");
     //we are storing all the products in a list
     private List<ProductModel> productList;
     private HashMap<String, ProductModel> productsMap;
@@ -57,6 +58,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         productViewHolder.textQuantity.setText(String.valueOf(productQuantity.get(product.getID())));
         productViewHolder.textSize.setText(product.getQuantity());
+        productViewHolder.textTotalPrice.setText(df.format(product.getPriceICA()*productQuantity.get(product.getID())));
 
     }
     void deleteItem(int index) {
@@ -70,7 +72,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
     class ProductViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textItem, textPrice, textQuantity, textSize;
+        TextView textItem, textPrice, textQuantity, textSize, textTotalPrice;
         ImageButton delete;
 
         public ProductViewHolder(View itemView) {
@@ -80,6 +82,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             textPrice = itemView.findViewById(R.id.itemPrice);
             textQuantity = itemView.findViewById(R.id.itemQuantity);
             textSize = itemView.findViewById(R.id.itemSize);
+            textTotalPrice=itemView.findViewById(R.id.itemTotalPrice);
             delete = itemView.findViewById(R.id.item_remove);
         }
     }
