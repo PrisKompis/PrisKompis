@@ -63,7 +63,7 @@ public class InShop extends AppCompatActivity
     private ProgressBar fraction;
     private ProgressBar totalProgress;
     private DecimalFormat df = new DecimalFormat("#.#");
-
+    private Popup popup;
 
 
     @Override
@@ -245,13 +245,13 @@ return animation;
         // updateProduct("0000042");
         //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
         startActivityForResult(intent, RC_BARCODE_CAPTURE);
-        exceededBudget = false;
+
 
 
     }
 
-    Popup popup;
-    boolean exceededBudget= false;
+
+
 
     public void AddToCart(View view) {
         if (TextUtils.isEmpty(requiredQuantity.getText())) {
@@ -259,7 +259,7 @@ return animation;
             return;
         }
 
-        if ((orderTotal + result) > budget && !exceededBudget)  {
+        if ((orderTotal + result) > budget )  {
                 popup = new Popup(view,this);
                 popup.show();
         } else {
@@ -271,6 +271,7 @@ return animation;
             resetView();
         }
     }
+
 
     public void resetView(){
         /*displayName.setText("");
@@ -321,22 +322,38 @@ return animation;
 
     }
 
+public void setNewBudget(View view)
+    {
+        EditText newBudget =popup.alertDialog.findViewById(R.id.editBudgetLimit);
+
+    if (TextUtils.isEmpty(newBudget.getText()))
+    {
+    newBudget.setError("Budget can not be empty");
+    return;
+    }
+
+
+        budget=Integer.parseInt(newBudget.getText().toString());
+    }
+
 
     public void popupClickHandler(View view) {
-        exceededBudget = true;
+
         switch (view.getId())
         {
             case R.id.buttonOk: {
                 System.out.println("Ok Button clicked");
+
+                setNewBudget(view);
+                updateChart();
                 popup.dismiss();
-                AddToCart(view);
                 break;
             }
             case R.id.buttonCancel:{
                 System.out.println("cancel Button clicked");
                 popup.dismiss();
-                checkOut(view);
                 break;
+
             }
 
         }
