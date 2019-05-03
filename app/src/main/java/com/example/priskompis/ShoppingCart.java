@@ -1,6 +1,7 @@
 package com.example.priskompis;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,9 @@ private DecimalFormat df = new DecimalFormat("#.#");
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_cart);
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayShowHomeEnabled(true);
+    actionBar.setIcon(R.drawable.icon36);
     Intent intent = this.getIntent();
     Bundle bundle = intent.getExtras();
     //Type object = (Type) bundle.getSerializable("KEY");
