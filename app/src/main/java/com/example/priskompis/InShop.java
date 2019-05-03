@@ -241,64 +241,36 @@ return animation;
 
         Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
         // intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
-        updateProduct("0000042");
+
+        // updateProduct("0000042");
         //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
-        //startActivityForResult(intent, RC_BARCODE_CAPTURE);
+        startActivityForResult(intent, RC_BARCODE_CAPTURE);
+        exceededBudget = false;
+
+
     }
 
+    Popup popup;
+    boolean exceededBudget= false;
 
-    public void AddToCart(View view)
-    {
-        if (TextUtils.isEmpty(requiredQuantity.getText()))
-        {
+    public void AddToCart(View view) {
+        if (TextUtils.isEmpty(requiredQuantity.getText())) {
             requiredQuantity.setError("Quantity can not be empty");
             return;
         }
 
-            if(orderTotal+result>budget)
-                dialog();
-
-    else
-    {
-    reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
-    order.addProduct(product, reqQuantity);
-
-    orderTotal += Math.round(Float.parseFloat(resultView.getText().toString()) * 10.0 / 10.0);
-    quantityList.put(product.getID(), reqQuantity);
-    updateChart();
-
-    resetView();
+        if ((orderTotal + result) > budget && !exceededBudget)  {
+                popup = new Popup(view,this);
+                popup.show();
+        } else {
+            reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
+            order.addProduct(product, reqQuantity);
+            orderTotal += Math.round(Float.parseFloat(resultView.getText().toString()) * 10.0 / 10.0);
+            quantityList.put(product.getID(), reqQuantity);
+            updateChart();
+            resetView();
+        }
     }
-    }
-
-public void dialog(){
-//before inflating the custom alert dialog layout, we will get the current activity viewgroup
-ViewGroup viewGroup = findViewById(android.R.id.content);
-
-//then we will inflate the custom alert dialog xml that we created
-View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.alert_dialog, viewGroup, false);
-//Now we need an AlertDialog.Builder object
-AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-//setting the view of the builder to our custom view that we already inflated
-builder.setView(dialogView);
-
-//finally creating the alert dialog and displaying it
-final AlertDialog alertDialog = builder.create();
-alertDialog.show();
-
-Button button = dialogView.findViewById(R.id.buttonOk);
-button.setOnClickListener(new View.OnClickListener() {
-@Override
-public void onClick(View v) {
-alertDialog.cancel();
-}
-});
-
-
-
-
-}
 
     public void resetView(){
         /*displayName.setText("");
@@ -346,6 +318,29 @@ alertDialog.cancel();
         bundle.putSerializable("quantities",quantityList);
         intent.putExtras(bundle);
         startActivity(intent);
+
+    }
+
+
+    public void popupClickHandler(View view) {
+        exceededBudget = true;
+        switch (view.getId())
+        {
+            case R.id.buttonOk: {
+                System.out.println("Ok Button clicked");
+                popup.dismiss();
+                AddToCart(view);
+                break;
+            }
+            case R.id.buttonCancel:{
+                System.out.println("cancel Button clicked");
+                popup.dismiss();
+                checkOut(view);
+                break;
+            }
+
+        }
+
 
     }
 }
