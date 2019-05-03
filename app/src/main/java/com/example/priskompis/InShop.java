@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.example.priskompis.Operations.Database;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class InShop extends AppCompatActivity
@@ -46,6 +48,7 @@ public class InShop extends AppCompatActivity
     private float orderTotal;
     private TextView quantityLabel;
     private Button addToCart;
+    private TextView productDisplayTitle;
     private HashMap<String, Float> quantityList=new HashMap<>();
     private Order order = new Order();
 
@@ -59,6 +62,7 @@ public class InShop extends AppCompatActivity
     private Barcode barcode = null;
     private ProgressBar fraction;
     private ProgressBar totalProgress;
+    private DecimalFormat df = new DecimalFormat("#.#");
 
 
 
@@ -80,6 +84,7 @@ public class InShop extends AppCompatActivity
         totalBudget=findViewById(R.id.total_budget);
         fraction=findViewById(R.id.stats_progressbar);
         totalProgress = findViewById(R.id.stats_totalprogressbar);
+        productDisplayTitle=findViewById(R.id.productDisplayTitle);
         //product=new ProductModel();
 
         requiredQuantity.addTextChangedListener(new TextWatcher()
@@ -107,15 +112,16 @@ public class InShop extends AppCompatActivity
                 {
                     reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
                     float price = product.getPriceICA();
-                    result=(float)(Math.round(price*reqQuantity*10.0)/10.0);
-                    resultView.setText(String.valueOf(result));
-                    totalBudget.setText((float)(Math.round(orderTotal*10.0)/10.0) +result+ " SEK/ " + budget+" SEK");
+                    result=(float)((price*reqQuantity*10.0)/10.0);
+                    resultView.setText(df.format(result));
+                    totalBudget.setText(df.format((orderTotal+result)*10.0/10.0)+ " SEK/ " + budget+" SEK");
                     totalBudget.startAnimation(getBlinkAnimation());
                     //totalProgress.setVisibility(View.INVISIBLE);
 
                     //updateChart();
                     fraction.setVisibility(View.VISIBLE);
-                    fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget))*100);
+                    fraction.startAnimation(getBlinkAnimation());
+                    fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget)*100));
 
                 }
             }
@@ -174,7 +180,7 @@ public class InShop extends AppCompatActivity
         double d = (double) orderTotal / (double) budget;
         int progress = (int) (d * 100);
         totalProgress.setProgress(progress);
-        fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget))*100);
+        fraction.setProgress((int)(((double)(orderTotal+result)/(double)(budget))*100));
 
     }
 
@@ -205,6 +211,9 @@ return animation;
         if(product != null) {
             System.out.println("Setting all the display properties");
             displayName.setText(product.getName());
+            displayName.setGravity(Gravity.LEFT);
+            displayQuantity.setGravity(Gravity.LEFT);
+            displayPrice.setGravity(Gravity.LEFT);
             displayQuantity.setText(String.valueOf(product.getQuantity()));
             displayPrice.setText(String.valueOf(product.getPriceICA()) + " SEK");
             //resultView.setText(String.valueOf(product.getPriceICA()));
@@ -217,6 +226,8 @@ return animation;
             quantityLabel.setVisibility(View.VISIBLE);
             requiredQuantity.setVisibility(View.VISIBLE);
             totalProgress.setVisibility(View.VISIBLE);
+            fraction.setProgress((int)(((double)(orderTotal+result)/(double)(budget))*100));
+            fraction.setVisibility(View.VISIBLE);
             System.out.println("Finished Setting all the display properties");
         }
     else
@@ -230,10 +241,13 @@ return animation;
 
         Intent intent = new Intent(getApplicationContext(), BarcodeCaptureActivity.class);
         // intent.putExtra(BarcodeCaptureActivity.AutoFocus, autoFocus.isChecked());
+
         // updateProduct("0000042");
         //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
         startActivityForResult(intent, RC_BARCODE_CAPTURE);
         exceededBudget = false;
+
+
     }
 
     Popup popup;
@@ -266,13 +280,24 @@ return animation;
         requiredQuantity.setText("");*/
         quantityLabel.setVisibility(View.INVISIBLE);
         requiredQuantity.setVisibility(View.INVISIBLE);
+        result=0;
+        reqQuantity=0;
         resultView.setVisibility(View.INVISIBLE);
         addToCart.setVisibility(View.INVISIBLE);
         barcodeValue.setVisibility(View.INVISIBLE);
-        displayPrice.setVisibility(View.INVISIBLE);
-        displayQuantity.setVisibility(View.INVISIBLE);
-        displayName.setTextSize(25);
-        displayName.setText("Scan Next Item or Click Checkout to complete Shopping");
+        productDisplayTitle.setVisibility(View.INVISIBLE);
+        //displayPrice.setVisibility(View.INVISIBLE);
+        //displayQuantity.setVisibility(View.INVISIBLE);
+        displayName.setTextSize(20);
+        displayName.setText("Scan Next Item");
+        displayName.setGravity(Gravity.CENTER_HORIZONTAL);
+        displayQuantity.setText("or");
+        displayQuantity.setTextSize(20);
+        displayPrice.setTextSize(20);
+        displayQuantity.setGravity(Gravity.CENTER_HORIZONTAL);
+        displayPrice.setGravity(Gravity.CENTER_HORIZONTAL);
+        displayPrice.setText("Checkout to complete Shopping");
+        fraction.setProgress(0);
         fraction.setVisibility(View.INVISIBLE);
         totalProgress.setVisibility(View.VISIBLE);
         totalBudget.startAnimation(stopBlinkAnimation());
