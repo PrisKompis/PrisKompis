@@ -13,6 +13,7 @@ import com.example.priskompis.Adapter.ProductAdapter;
 import com.example.priskompis.Model.Order;
 import com.example.priskompis.Model.ProductModel;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Arrays;
@@ -22,6 +23,7 @@ public class Checkout extends AppCompatActivity {
     //a list to store all the products
     HashMap<String, ProductModel> productList;
     HashMap<String, Float> productQuantity;
+private DecimalFormat df = new DecimalFormat("#.#");
 
     //the recyclerview
     RecyclerView recyclerView;
@@ -64,7 +66,7 @@ public class Checkout extends AppCompatActivity {
         Intent intent = new Intent(this, Payment.class);
         TextView amt = findViewById(R.id.txt_totalprice);
         float totalPrice = Float.parseFloat(amt.getText().toString().split(" ")[0])*100;
-        intent.putExtra("totalPrice", String.valueOf(Math.round(totalPrice)));
+        intent.putExtra("totalPrice", df.format((Math.round(totalPrice))));
         this.startActivity (intent);
     }
 }
