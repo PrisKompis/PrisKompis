@@ -139,7 +139,7 @@
 
     <LinearLayout
         android:id="@+id/productDisplay"
-        android:layout_width="389dp"
+        android:layout_width="match_parent"
         android:layout_height="189dp"
         android:background="#1E3FB5A3"
         android:orientation="vertical"
@@ -192,6 +192,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/productDisplay">

@@ -112,14 +112,15 @@ public class InShop extends AppCompatActivity
                 {
                     reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
                     float price = product.getPriceICA();
-                    result=(float)(Math.round(price*reqQuantity*10.0)/10.0);
-                    resultView.setText(String.valueOf(result));
-                    totalBudget.setText(df.format(Math.round(orderTotal*10.0)/10.0) +result+ " SEK/ " + budget+" SEK");
+                    result=(float)((price*reqQuantity*10.0)/10.0);
+                    resultView.setText(df.format(result));
+                    totalBudget.setText(df.format((orderTotal+result)*10.0/10.0)+ " SEK/ " + budget+" SEK");
                     totalBudget.startAnimation(getBlinkAnimation());
                     //totalProgress.setVisibility(View.INVISIBLE);
 
                     //updateChart();
                     fraction.setVisibility(View.VISIBLE);
+                    fraction.startAnimation(getBlinkAnimation());
                     fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget)*100));
 
                 }
@@ -324,7 +325,7 @@ alertDialog.cancel();
         displayQuantity.setGravity(Gravity.CENTER_HORIZONTAL);
         displayPrice.setGravity(Gravity.CENTER_HORIZONTAL);
         displayPrice.setText("Checkout to complete Shopping");
-
+        fraction.setProgress(0);
         fraction.setVisibility(View.INVISIBLE);
         totalProgress.setVisibility(View.VISIBLE);
         totalBudget.startAnimation(stopBlinkAnimation());
