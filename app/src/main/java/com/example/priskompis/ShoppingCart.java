@@ -1,7 +1,6 @@
 package com.example.priskompis;
 
 import android.content.Intent;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,9 +14,8 @@ import com.example.priskompis.Model.ProductModel;
 
 import java.util.HashMap;
 import java.util.Set;
-import java.util.Arrays;
 
-public class Checkout extends AppCompatActivity {
+public class ShoppingCart extends AppCompatActivity {
 
     //a list to store all the products
     HashMap<String, ProductModel> productList;
@@ -29,7 +27,7 @@ public class Checkout extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_checkout);
+        setContentView(R.layout.activity_shopping_cart);
     Intent intent = this.getIntent();
     Bundle bundle = intent.getExtras();
     //Type object = (Type) bundle.getSerializable("KEY");
