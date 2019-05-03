@@ -1,6 +1,7 @@
 package com.example.priskompis;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -82,7 +83,9 @@ public class InShop extends AppCompatActivity
         totalProgress = findViewById(R.id.stats_totalprogressbar);
         productDisplayTitle=findViewById(R.id.productDisplayTitle);
         //product=new ProductModel();
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setIcon(R.drawable.icon36);
         requiredQuantity.addTextChangedListener(new TextWatcher()
         {
             @Override
