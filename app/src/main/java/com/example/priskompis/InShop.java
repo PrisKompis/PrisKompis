@@ -1,7 +1,6 @@
 package com.example.priskompis;
 
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,9 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
@@ -20,7 +17,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.priskompis.Model.Order;
 import com.example.priskompis.Model.ProductModel;
@@ -297,7 +293,7 @@ return animation;
         displayPrice.setTextSize(20);
         displayQuantity.setGravity(Gravity.CENTER_HORIZONTAL);
         displayPrice.setGravity(Gravity.CENTER_HORIZONTAL);
-        displayPrice.setText("Checkout to complete Shopping");
+        displayPrice.setText("ShoppingCart to complete Shopping");
         fraction.setProgress(0);
         fraction.setVisibility(View.INVISIBLE);
         totalProgress.setVisibility(View.VISIBLE);
@@ -311,10 +307,10 @@ return animation;
         requiredQuantity.getText().clear();
     }
 
-    public void checkOut(View view)
+    public void goToCart(View view)
     {
         Bundle bundle = new Bundle();
-        Intent intent = new Intent(getApplicationContext(), Checkout.class);
+        Intent intent = new Intent(getApplicationContext(), ShoppingCart.class);
         bundle.putSerializable("order", order);
         bundle.putSerializable("quantities",quantityList);
         intent.putExtras(bundle);

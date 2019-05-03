@@ -52,7 +52,8 @@
         android:text="0"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        android:theme="@style/EditTextTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
