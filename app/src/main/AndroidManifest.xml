@@ -24,7 +24,6 @@
         <activity android:name=".BarcodeCaptureActivity" />
         <activity android:name=".BudgetSet" />
         <activity android:name=".LoginActivity" />
-
         <activity android:name=".ShoppingCart" />
         <activity android:name=".SignUp" />
         <activity android:name=".InShop" />

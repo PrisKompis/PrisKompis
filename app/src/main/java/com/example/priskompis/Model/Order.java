@@ -1,5 +1,11 @@
 package com.example.priskompis.Model;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+
+import com.example.priskompis.InShop;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -20,20 +26,16 @@ public class Order implements Serializable
 
     }
 
-@Override
-public String toString()
+    @Override
+    public String toString()
     {
-    DecimalFormat df = new DecimalFormat("#.#");
-    String result="";
-    for(String id:products.keySet())
+        DecimalFormat df = new DecimalFormat("#.#");
+        String result="";
+        for(String id:products.keySet())
         {
-        result+= products.get(id).getName() + "\t" + products.get(id).getQuantity() + "\t" + productQuantity.get(id) + " x " + products.get(id).getPriceICA() + "\t" + df.format((double)productQuantity.get(id)*(double)products.get(id).getPriceICA())+"\n";
+            result+= products.get(id).getName() + "\t" + products.get(id).getQuantity() + "\t" + productQuantity.get(id) + " x " + products.get(id).getPriceICA() + "\t" + df.format((double)productQuantity.get(id)*(double)products.get(id).getPriceICA())+"\n";
         }
-
-
-
-
-    return result;
+        return result;
     }
 
 
@@ -98,6 +100,28 @@ public String toString()
         //print all the keys
         for (String key : keys) {
             System.out.println(key + ":/:" + productQuantity.get(key));
+        }
+    }
+
+    public void removeProduct(ProductModel product) {
+        Boolean isProductInCart = (this.products.get(product.getID()) != null);
+        if (!isProductInCart) {
+            System.out.println("Product not in cart");
+        }
+        else{
+            products.remove(product.getID());
+            productQuantity.remove(product.getID());
+            System.out.println("Product removed");
+        }
+        printProductQuantity();
+    }
+
+    public void printProducts() {
+        System.out.println("Printing products");
+        Set<String> keys = products.keySet();
+        //print all the keys
+        for (String key : keys) {
+            System.out.println(key + ":/:" + products.get(key).getName() + "\t" + products.get(key).getID());
         }
     }
 }

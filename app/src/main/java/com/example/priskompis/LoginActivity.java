@@ -112,7 +112,6 @@ public class LoginActivity extends AppCompatActivity {
 
             });
 
-
         }
     }
 
@@ -122,5 +121,11 @@ public class LoginActivity extends AppCompatActivity {
         edit.putString("userEmail", email);
         edit.apply();
 
+    }
+
+    public void logout() {
+        System.out.println(mAuth.getCurrentUser());
+        mAuth.signOut();
+        setContentView(R.layout.activity_login);
     }
 }

@@ -30,7 +30,6 @@ import java.util.HashMap;
 
 public class InShop extends AppCompatActivity
 {
-
     Intent intent = new Intent();
     private int budget;
     private Database dat = new Database();
@@ -55,6 +54,7 @@ public class InShop extends AppCompatActivity
     private TextView barcodeValue;
     private TextView totalBudget;
     private static final int RC_BARCODE_CAPTURE = 9001;
+    private static final int UPDATE_ORDER = 9002;
     private static final String TAG = "BarcodeMain";
     private Barcode barcode = null;
     private ProgressBar fraction;
@@ -62,10 +62,10 @@ public class InShop extends AppCompatActivity
     private DecimalFormat df = new DecimalFormat("#.#");
     private Popup popup;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        System.out.println("On create");
         super.onCreate(savedInstanceState);
         intent = getIntent();
         setContentView(R.layout.activity_in_shop);
@@ -88,15 +88,12 @@ public class InShop extends AppCompatActivity
         actionBar.setIcon(R.drawable.icon36);
         requiredQuantity.addTextChangedListener(new TextWatcher()
         {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
 
@@ -121,19 +118,18 @@ public class InShop extends AppCompatActivity
                     fraction.setVisibility(View.VISIBLE);
                     fraction.startAnimation(getBlinkAnimation());
                     fraction.setProgress((int)((double)(orderTotal+result)/(double)(budget)*100));
-
                 }
             }
         });
         budget = intent.getIntExtra("budget", 0);
 
         barcodeValue = (TextView)findViewById(R.id.barcode_value);
-
         //useFlash = (CompoundButton) findViewById(R.id.use_flash);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("In onActivityResult" + requestCode + "::::" + resultCode);
         if (requestCode == RC_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
@@ -151,6 +147,19 @@ public class InShop extends AppCompatActivity
             } else {
                 //statusMessage.setText(String.format(getString(R.string.barcode_error),
                 // CommonStatusCodes.getStatusCodeString(resultCode)));
+            }
+        }
+        else if (requestCode == UPDATE_ORDER) {
+            System.out.println("After requestCode check");
+            if(resultCode == CommonStatusCodes.SUCCESS) {
+                System.out.println("After resultCode check :: "+ data);
+                if (data != null) {
+                    Order newOrder = (Order) data.getExtras().getSerializable("order");
+                    order = newOrder;
+                    orderTotal = order.getTotalPrice();
+                    updateChart();
+                    resetView();
+                }
             }
         }
         else {
@@ -172,10 +181,7 @@ public class InShop extends AppCompatActivity
         displayQuantity.setVisibility(View.VISIBLE);
         displayName.setTextSize(18);
 
-
-// Calculate the slice size and update the pie chart:
-
-
+        // Calculate the slice size and update the pie chart:
         double d = (double) orderTotal / (double) budget;
         int progress = (int) (d * 100);
         totalProgress.setProgress(progress);
@@ -193,15 +199,15 @@ public class InShop extends AppCompatActivity
         return animation;
     }
 
-public Animation stopBlinkAnimation(){
-Animation animation = new AlphaAnimation(1,1);         // Change alpha from fully visible to invisible
-animation.setDuration(300);                             // duration - half a second
-animation.setInterpolator(new LinearInterpolator());    // do not alter animation rate
-animation.setRepeatCount(100);                            // Repeat animation infinitely
-animation.setRepeatMode(Animation.REVERSE);             // Reverse animation at the end so the button will fade back in
+    public Animation stopBlinkAnimation(){
+        Animation animation = new AlphaAnimation(1,1);         // Change alpha from fully visible to invisible
+        animation.setDuration(300);                             // duration - half a second
+        animation.setInterpolator(new LinearInterpolator());    // do not alter animation rate
+        animation.setRepeatCount(100);                            // Repeat animation infinitely
+        animation.setRepeatMode(Animation.REVERSE);             // Reverse animation at the end so the button will fade back in
 
-return animation;
-}
+        return animation;
+    }
 
     public void updateProduct(String barCode)
     {
@@ -229,10 +235,10 @@ return animation;
             fraction.setVisibility(View.VISIBLE);
             System.out.println("Finished Setting all the display properties");
         }
-    else
-            {
+        else
+        {
             Log.i("Product:","Not found");
-            }
+        }
 
     }
     public void scanItem(View view){
@@ -245,12 +251,7 @@ return animation;
         //intent.putExtra(BarcodeCaptureActivity.UseFlash, useFlash.isChecked());
         startActivityForResult(intent, RC_BARCODE_CAPTURE);
 
-
-
     }
-
-
-
 
     public void AddToCart(View view) {
         if (TextUtils.isEmpty(requiredQuantity.getText())) {
@@ -259,8 +260,8 @@ return animation;
         }
 
         if ((orderTotal + result) > budget )  {
-                popup = new Popup(view,this);
-                popup.show();
+            popup = new Popup(view,this);
+            popup.show();
         } else {
             reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
             order.addProduct(product, reqQuantity);
@@ -269,6 +270,19 @@ return animation;
             updateChart();
             resetView();
         }
+    }
+
+    public void removeFromCart(View view) {
+        order.removeProduct(product);
+        updateChart();
+        resetView();
+    }
+
+    public void removeProduct (ProductModel product) {
+        order.removeProduct(product);
+        updateChart();
+        resetView();
+        System.out.println("In Shop");
     }
 
 
@@ -296,12 +310,10 @@ return animation;
         displayPrice.setTextSize(20);
         displayQuantity.setGravity(Gravity.CENTER_HORIZONTAL);
         displayPrice.setGravity(Gravity.CENTER_HORIZONTAL);
-       // displayPrice.setText("ShoppingCart to complete Shopping");
         fraction.setProgress(0);
         fraction.setVisibility(View.INVISIBLE);
         totalProgress.setVisibility(View.VISIBLE);
         totalBudget.startAnimation(stopBlinkAnimation());
-
 
     }
 
@@ -317,27 +329,25 @@ return animation;
         bundle.putSerializable("order", order);
         bundle.putSerializable("quantities",quantityList);
         intent.putExtras(bundle);
-        startActivity(intent);
+        startActivityForResult(intent, UPDATE_ORDER);
 
     }
 
-public void setNewBudget(View view)
+    public void setNewBudget(View view)
     {
         EditText newBudget =popup.alertDialog.findViewById(R.id.editBudgetLimit);
 
-    if (TextUtils.isEmpty(newBudget.getText()))
-    {
-    newBudget.setError("Budget can not be empty");
-    return;
-    }
+        if (TextUtils.isEmpty(newBudget.getText()))
+        {
+            newBudget.setError("Budget can not be empty");
+            return;
+        }
 
 
         budget=Integer.parseInt(newBudget.getText().toString());
     }
 
-
     public void popupClickHandler(View view) {
-
         switch (view.getId())
         {
             case R.id.buttonOk: {
@@ -356,7 +366,5 @@ public void setNewBudget(View view)
             }
 
         }
-
-
     }
 }
