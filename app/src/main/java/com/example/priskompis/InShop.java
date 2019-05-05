@@ -286,6 +286,7 @@ public class InShop extends AppCompatActivity
     }
 
 
+
     public void resetView(){
        /*displayName.setText(“”);
        displayQuantity.setText(“”);
@@ -316,6 +317,7 @@ public class InShop extends AppCompatActivity
         totalProgress.setVisibility(View.VISIBLE);
         totalBudget.startAnimation(stopBlinkAnimation());
     }
+
 
     public void clearText(View view)
     {
