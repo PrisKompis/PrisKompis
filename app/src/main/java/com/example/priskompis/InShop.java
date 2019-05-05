@@ -311,7 +311,7 @@ public class InShop extends AppCompatActivity
         displayPrice.setTextSize(20);
         displayQuantity.setGravity(Gravity.CENTER_HORIZONTAL);
         displayPrice.setGravity(Gravity.CENTER_HORIZONTAL);
-        displayPrice.setText("ShoppingCart to complete Shopping");
+        displayPrice.setText("Go to Cart to complete Shopping");
         fraction.setProgress(0);
         fraction.setVisibility(View.INVISIBLE);
         totalProgress.setVisibility(View.VISIBLE);
