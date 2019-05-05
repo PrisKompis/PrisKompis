@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.priskompis.InShop;
+import com.example.priskompis.Model.Order;
 import com.example.priskompis.Model.ProductModel;
 import com.example.priskompis.R;
+import com.example.priskompis.ShoppingCart;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -44,7 +47,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.layout_products, null);
         return new ProductViewHolder(view);
-
     }
 
     @Override
@@ -59,9 +61,16 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         productViewHolder.textQuantity.setText(String.valueOf(productQuantity.get(product.getID())));
         productViewHolder.textSize.setText(product.getQuantity());
         productViewHolder.textTotalPrice.setText(df.format(product.getPriceICA()*productQuantity.get(product.getID())));
-
     }
+
+    // delete item from recycler view
     void deleteItem(int index) {
+        ProductModel product = productList.get(index);
+        String productID = product.getID();
+        System.out.println(productID);
+        if(mCtx instanceof ShoppingCart){
+            ((ShoppingCart)mCtx).removeProduct(product);
+        }
         productList.remove(index);
         notifyItemRemoved(index);
     }
@@ -70,12 +79,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public int getItemCount() {
         return productList.size();
     }
-    class ProductViewHolder extends RecyclerView.ViewHolder {
-
+    
+    public class ProductViewHolder extends RecyclerView.ViewHolder {
         TextView textItem, textPrice, textQuantity, textSize, textTotalPrice;
         ImageButton delete;
 
-        public ProductViewHolder(View itemView) {
+        public ProductViewHolder(final View itemView) {
             super(itemView);
 
             textItem = itemView.findViewById(R.id.itemName);
@@ -84,6 +93,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             textSize = itemView.findViewById(R.id.itemSize);
             textTotalPrice=itemView.findViewById(R.id.itemTotalPrice);
             delete = itemView.findViewById(R.id.item_remove);
+
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteItem(getAdapterPosition());
+                }
+            });
         }
     }
 
