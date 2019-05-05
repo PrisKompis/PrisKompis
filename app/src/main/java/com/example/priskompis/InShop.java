@@ -173,7 +173,7 @@ public class InShop extends AppCompatActivity
 
         // Update the text in a center of the chart:
         TextView totalBudget = findViewById(R.id.total_budget);
-        totalBudget.setText(orderTotal + " / " + budget);
+        totalBudget.setText(df.format(orderTotal) + " / " + budget);
 
         fraction.setVisibility(View.VISIBLE);
         fraction.startAnimation(getBlinkAnimation());
@@ -265,7 +265,7 @@ public class InShop extends AppCompatActivity
         } else {
             reqQuantity = Float.parseFloat(requiredQuantity.getText().toString());
             order.addProduct(product, reqQuantity);
-            orderTotal += Math.round(Float.parseFloat(resultView.getText().toString()) * 10.0 / 10.0);
+            orderTotal += Float.parseFloat(resultView.getText().toString());
             quantityList.put(product.getID(), reqQuantity);
             updateChart();
             resetView();
