@@ -20,12 +20,12 @@ Pris Kompis translates to 'Price Buddy' is budget friendly pocket shopping appli
 1. Android, Java & JavaScript
 2. Firebase <Authentication, RealtimeDB, Functions>
 5. Payment which comply with PCI DSS 
-6. Barcode Integration
+6. Barcode Scanning Integration using Google Vision API
 7. Gmail Integration
 
 ### Add-ons
 
-1. Popup, Adapter, Recycler View, Progressbar with Animation, Material Design
+1. Popup, Adapter, Recycler View, Progressbar with Animation
 2. Shared Preferences 
 3. Espresso 
 4. Node-mailer 
