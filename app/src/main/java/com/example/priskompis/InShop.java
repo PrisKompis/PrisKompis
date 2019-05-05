@@ -286,38 +286,38 @@ public class InShop extends AppCompatActivity
     }
 
 
-public void resetView(){
-        /*displayName.setText("");
-        displayQuantity.setText("");
-        displayPrice.setText("");
-        resultView.setText("");
-        requiredQuantity.setText("");*/
-quantityLabel.setVisibility(View.INVISIBLE);
-requiredQuantity.setVisibility(View.INVISIBLE);
-result=0;
-reqQuantity=0;
-resultView.setVisibility(View.INVISIBLE);
-addToCart.setVisibility(View.INVISIBLE);
-barcodeValue.setVisibility(View.INVISIBLE);
-productDisplayTitle.setVisibility(View.INVISIBLE);
-//displayPrice.setVisibility(View.INVISIBLE);
-//displayQuantity.setVisibility(View.INVISIBLE);
-displayName.setTextSize(20);
-displayName.setText("Scan Next Item");
-displayName.setGravity(Gravity.CENTER_HORIZONTAL);
-displayQuantity.setText("or");
-displayQuantity.setTextSize(20);
-displayPrice.setTextSize(20);
-displayQuantity.setGravity(Gravity.CENTER_HORIZONTAL);
-displayPrice.setGravity(Gravity.CENTER_HORIZONTAL);
-displayPrice.setText("ShoppingCart to complete Shopping");
-fraction.setProgress(0);
-fraction.setVisibility(View.INVISIBLE);
-totalProgress.setVisibility(View.VISIBLE);
-totalBudget.startAnimation(stopBlinkAnimation());
 
+    public void resetView(){
+       /*displayName.setText(“”);
+       displayQuantity.setText(“”);
+       displayPrice.setText(“”);
+       resultView.setText(“”);
+       requiredQuantity.setText(“”);*/
+        quantityLabel.setVisibility(View.INVISIBLE);
+        requiredQuantity.setVisibility(View.INVISIBLE);
+        result=0;
+        reqQuantity=0;
+        resultView.setVisibility(View.INVISIBLE);
+        addToCart.setVisibility(View.INVISIBLE);
+        barcodeValue.setVisibility(View.INVISIBLE);
+        productDisplayTitle.setVisibility(View.INVISIBLE);
+        //displayPrice.setVisibility(View.INVISIBLE);
+        //displayQuantity.setVisibility(View.INVISIBLE);
+        displayName.setTextSize(20);
+        displayName.setText("Scan Next Item");
+        displayName.setGravity(Gravity.CENTER_HORIZONTAL);
+        displayQuantity.setText("or");
+        displayQuantity.setTextSize(20);
+        displayPrice.setTextSize(20);
+        displayQuantity.setGravity(Gravity.CENTER_HORIZONTAL);
+        displayPrice.setGravity(Gravity.CENTER_HORIZONTAL);
+        displayPrice.setText("ShoppingCart to complete Shopping");
+        fraction.setProgress(0);
+        fraction.setVisibility(View.INVISIBLE);
+        totalProgress.setVisibility(View.VISIBLE);
+        totalBudget.startAnimation(stopBlinkAnimation());
+    }
 
-}
 
     public void clearText(View view)
     {
