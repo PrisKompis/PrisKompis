@@ -25,7 +25,7 @@ public class ShoppingCart extends AppCompatActivity {
     //a list to store all the products
     HashMap<String, ProductModel> productList;
     HashMap<String, Float> productQuantity;
-    private DecimalFormat df = new DecimalFormat("#.#");
+    private DecimalFormat df = new DecimalFormat("#.##");
 
     //the recyclerview
     RecyclerView recyclerView;
@@ -68,14 +68,14 @@ public class ShoppingCart extends AppCompatActivity {
         //setting adapter to recyclerview
         recyclerView.setAdapter(adapter);
         totalPrice = findViewById(R.id.txt_totalprice);
-        totalPrice.setText(String.valueOf(df.format(Math.round(myOrder.getTotalPrice())) + " SEK"));
+        totalPrice.setText(String.valueOf(df.format(myOrder.getTotalPrice()) + " SEK"));
     }
 
     public void goToPayment(View view) {
         Intent intent = new Intent(this, Payment.class);
         TextView amt = findViewById(R.id.txt_totalprice);
         float totalPrice = Float.parseFloat(amt.getText().toString().split(" ")[0])*100;
-        intent.putExtra("totalPrice", df.format((Math.round(totalPrice))));
+        intent.putExtra("totalPrice", df.format(totalPrice));
         this.startActivity(intent);
     }
 
@@ -83,7 +83,7 @@ public class ShoppingCart extends AppCompatActivity {
         myOrder.removeProduct(product);
         System.out.println("In Shopping Cart");
         myOrder.printProducts();
-        totalPrice.setText(String.valueOf(df.format(Math.round(myOrder.getTotalPrice()))) + " SEK");
+        totalPrice.setText(String.valueOf(df.format(myOrder.getTotalPrice())) + " SEK");
     }
 
     @Override
