@@ -1,5 +1,6 @@
 package com.example.priskompis;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ public class Payment extends AppCompatActivity {
 
     String receipturl;
     EditText editText;
+    ProgressDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,9 @@ public class Payment extends AppCompatActivity {
 
             System.out.println("Creating Token..");
             System.out.println(card.getNumber());
-
+            mDialog=new ProgressDialog(this);
+            mDialog.setMessage("Processing..");
+            mDialog.show();
             final Context mContext = this;
             Stripe stripe = new Stripe(mContext, "pk_test_WwGsbygMxfvO3kv7ZGS1IL0n006cDpCCd4");
             stripe.createToken(
@@ -60,7 +64,8 @@ public class Payment extends AppCompatActivity {
                     new TokenCallback() {
                         public void onSuccess(Token token) {
                             // Send token to your server
-                            Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
+                            mDialog.dismiss();
+
                             String receiptURL = null;
                             try {
                                 receiptURL = new StripeCharge(token.getId(), amount).execute().get(30, TimeUnit.SECONDS);
@@ -73,7 +78,8 @@ public class Payment extends AppCompatActivity {
                             }
 
                             if (receiptURL != null) {
-                                goToReceiptActivity(receiptURL);
+                            Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
+                            goToReceiptActivity(receiptURL);
                             }
                             else {
                                 String errorMessage = "Something went wrong when processing your payment. Please try again.";
@@ -87,6 +93,7 @@ public class Payment extends AppCompatActivity {
 
                         public void onError(Exception error) {
                             // Show localized error message
+                            mDialog.dismiss();
                             System.out.println(error.getLocalizedMessage());
                             Toast.makeText(Payment.this,
                                     error.getLocalizedMessage(),
