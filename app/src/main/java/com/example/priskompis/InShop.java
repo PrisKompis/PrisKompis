@@ -287,11 +287,11 @@ public class InShop extends AppCompatActivity
 
 
     public void resetView(){
-        /*displayName.setText("");
-        displayQuantity.setText("");
-        displayPrice.setText("");
-        resultView.setText("");
-        requiredQuantity.setText("");*/
+       /*displayName.setText(“”);
+       displayQuantity.setText(“”);
+       displayPrice.setText(“”);
+       resultView.setText(“”);
+       requiredQuantity.setText(“”);*/
         quantityLabel.setVisibility(View.INVISIBLE);
         requiredQuantity.setVisibility(View.INVISIBLE);
         result=0;
@@ -310,11 +310,11 @@ public class InShop extends AppCompatActivity
         displayPrice.setTextSize(20);
         displayQuantity.setGravity(Gravity.CENTER_HORIZONTAL);
         displayPrice.setGravity(Gravity.CENTER_HORIZONTAL);
+        displayPrice.setText("ShoppingCart to complete Shopping");
         fraction.setProgress(0);
         fraction.setVisibility(View.INVISIBLE);
         totalProgress.setVisibility(View.VISIBLE);
         totalBudget.startAnimation(stopBlinkAnimation());
-
     }
 
     public void clearText(View view)
