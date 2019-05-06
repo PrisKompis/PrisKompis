@@ -69,6 +69,7 @@ public class Payment extends AppCompatActivity {
                             String receiptURL = null;
                             try {
                                 receiptURL = new StripeCharge(token.getId(), amount).execute().get(30, TimeUnit.SECONDS);
+
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
                             } catch (InterruptedException e) {
@@ -77,7 +78,7 @@ public class Payment extends AppCompatActivity {
                                 e.printStackTrace();
                             }
 
-                            if (receiptURL != null) {
+                            if (receiptURL.length() > 0) {
                             Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
                             goToReceiptActivity(receiptURL);
                             }
@@ -105,7 +106,7 @@ public class Payment extends AppCompatActivity {
         } else
         {
             Toast.makeText(Payment.this,
-                    "Enter card details to proceed with payment",
+                    "Enter valid card details to proceed with payment",
                     Toast.LENGTH_LONG
             ).show();
             Log.d("Invalid","Invalid");
