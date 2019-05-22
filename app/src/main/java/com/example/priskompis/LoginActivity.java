@@ -120,7 +120,6 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor edit = preferences.edit();
         edit.putString("userEmail", email);
         edit.apply();
-
     }
 
     public void logout() {
